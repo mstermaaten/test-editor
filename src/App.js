@@ -4,6 +4,7 @@ import "./App.css";
 import firebase from "./Firebase";
 import Layout from "./components/Layout";
 import "./katex.css";
+import DraftRenderer from "./components/DraftRenderer";
 
 class App extends Component {
   constructor(props) {
@@ -62,7 +63,9 @@ class App extends Component {
                       <td>
                         <Link to={`/show/${Article.key}`}>{Article.title}</Link>
                       </td>
-                      <td>{Article.description}</td>
+                      <td>
+                        <DraftRenderer content={Article.description} />
+                      </td>
                       <td>{Article.category}</td>
                     </tr>
                   ))}
