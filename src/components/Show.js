@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Layout from "./Layout";
+import DraftRenderer from "./DraftRenderer";
 
 class Show extends Component {
   constructor(props) {
@@ -55,7 +56,9 @@ class Show extends Component {
           <div class="panel-body">
             <dl>
               <dt>Description:</dt>
-              <dd>{this.state.Article.description}</dd>
+              <dd>
+                <DraftRenderer content={this.state.Article.description} />
+              </dd>
               <dt>category:</dt>
               <dd>{this.state.Article.category}</dd>
             </dl>

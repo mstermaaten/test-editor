@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
-import { EditorState } from "draft-js";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 
 import Layout from "./Layout";
 import LatexEditor from "./editor";
@@ -12,8 +12,8 @@ class Edit extends Component {
     this.state = {
       key: "",
       title: "",
-      description: "",
-      category: EditorState.createEmpty()
+      description: EditorState.createEmpty(),
+      category: ""
     };
   }
 
@@ -25,10 +25,13 @@ class Edit extends Component {
     ref.get().then(doc => {
       if (doc.exists) {
         const Article = doc.data();
+
+        const converted = convertFromRaw(JSON.parse(Article.description));
+
         this.setState({
           key: doc.id,
           title: Article.title,
-          description: Article.description,
+          description: EditorState.createWithContent(converted),
           category: Article.category
         });
       } else {
@@ -38,19 +41,21 @@ class Edit extends Component {
   }
 
   onChange = e => {
-    const state = this.state;
-    state[e.target.name] = e.target.value;
-    this.setState({ Article: state });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   setEditorState = val => {
-    this.setState({ category: val });
+    this.setState({ description: val });
   };
 
   onSubmit = e => {
     e.preventDefault();
 
     const { title, description, category } = this.state;
+
+    const rawDraftContentState = JSON.stringify(
+      convertToRaw(description.getCurrentContent())
+    );
 
     const updateRef = firebase
       .firestore()
@@ -59,14 +64,14 @@ class Edit extends Component {
     updateRef
       .set({
         title,
-        description,
+        description: rawDraftContentState,
         category
       })
       .then(docRef => {
         this.setState({
           key: "",
           title: "",
-          description: "",
+          description: EditorState.createEmpty(),
           category: ""
         });
         this.props.history.push("/show/" + this.props.match.params.id);
@@ -103,19 +108,8 @@ class Edit extends Component {
               </div>
               <div class="form-group">
                 <label for="description">Description:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="description"
-                  value={this.state.description}
-                  onChange={this.onChange}
-                  placeholder="Description"
-                />
-              </div>
-              <div class="form-group">
-                <label for="description">Description:</label>
                 <LatexEditor
-                  editorState={this.state.category}
+                  editorState={this.state.description}
                   setEditorState={this.setEditorState}
                 />
               </div>

@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { RichUtils, convertFromRaw } from "draft-js";
-import Editor, { composeDecorators } from "draft-js-plugins-editor";
+import Editor from "draft-js-plugins-editor";
 
 import createKaTeXPlugin from "draft-js-katex-plugin";
 import katex from "katex";
@@ -21,7 +21,7 @@ import blockRenderer from "./renderer";
 const kaTeXPlugin = createKaTeXPlugin({ katex });
 const { InsertButton } = kaTeXPlugin;
 
-const plugins = [kaTeXPlugin];
+export const plugins = [kaTeXPlugin];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

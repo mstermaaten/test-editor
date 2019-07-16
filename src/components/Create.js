@@ -4,6 +4,7 @@ import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Layout from "./Layout";
 import { EditorState, convertToRaw } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
 import LatexEditor from "./editor";
 
 class Create extends Component {
@@ -31,11 +32,11 @@ class Create extends Component {
 
     const { title, description, category } = this.state;
 
-    // console.log("convertToRaw", convertToRaw(description));
-
     const rawDraftContentState = JSON.stringify(
-      convertToRaw(this.state.description.getCurrentContent())
+      convertToRaw(description.getCurrentContent())
     );
+
+    console.log("hhttmmll", stateToHTML(description.getCurrentContent()));
 
     this.ref
       .add({
