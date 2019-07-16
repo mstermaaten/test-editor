@@ -54,7 +54,7 @@ class Show extends Component {
             <h3 class="panel-title">{this.state.Article.title}</h3>
           </div>
           <div class="panel-body">
-            <dl>
+            <dl style={{ border: "1px solid lightgrey" }}>
               <dt>Description:</dt>
               <dd>
                 <DraftRenderer content={this.state.Article.description} />
@@ -72,8 +72,8 @@ class Show extends Component {
             >
               Delete
             </button>
-            <button>
-              <Link to="/" class="btn btn-primary">
+            <button class="btn btn-primary" style={{ marginLeft: "5px" }}>
+              <Link to="/" style={{ color: "white" }}>
                 Back
               </Link>
             </button>

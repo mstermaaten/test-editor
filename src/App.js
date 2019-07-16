@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 import firebase from "./Firebase";
-import Layout from "./components/Layout";
+import logo from "./static/logo.png";
+
 import "./katex.css";
 import DraftRenderer from "./components/DraftRenderer";
 
@@ -19,13 +20,14 @@ class App extends Component {
   onCollectionUpdate = querySnapshot => {
     const article = [];
     querySnapshot.forEach(doc => {
-      const { title, description, category } = doc.data();
+      const { title, description, category, writer } = doc.data();
       article.push({
         key: doc.id,
         doc, // DocumentSnapshot
         title,
         description,
-        category
+        category,
+        writer
       });
     });
     this.setState({
@@ -39,38 +41,56 @@ class App extends Component {
 
   render() {
     return (
-      <div class="container">
-        <div className="content">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Article LIST</h3>
-            </div>
-            <div class="panel-body">
-              <h4>
-                <Link to="/create">Add Article</Link>
-              </h4>
-              <table class="table table-stripe">
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>category</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.state.article.map(Article => (
+      <div>
+        <div
+          className="header"
+          style={{
+            width: "100%",
+            backgroundColor: "#79d279",
+            marginBottom: "20px"
+          }}
+        >
+          <div class="container">
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ width: "250px", padding: "10px 0px" }}
+            />
+          </div>
+        </div>
+        <div class="container">
+          <div className="content">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Article LIST</h3>
+              </div>
+              <div class="panel-body">
+                <h4>
+                  <Link to="/create">Add Article</Link>
+                </h4>
+                <table class="table table-stripe">
+                  <thead>
                     <tr>
-                      <td>
-                        <Link to={`/show/${Article.key}`}>{Article.title}</Link>
-                      </td>
-                      <td>
-                        <DraftRenderer content={Article.description} />
-                      </td>
-                      <td>{Article.category}</td>
+                      <th>Title</th>
+                      <th>category</th>
+                      <th>Writer</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {this.state.article.map(Article => (
+                      <tr>
+                        <td>
+                          <Link to={`/show/${Article.key}`}>
+                            {Article.title}
+                          </Link>
+                        </td>
+                        <td>{Article.category}</td>
+                        <td>{Article.writer}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

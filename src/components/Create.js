@@ -14,7 +14,8 @@ class Create extends Component {
     this.state = {
       title: "",
       description: EditorState.createEmpty(),
-      category: ""
+      category: "",
+      writer: ""
     };
   }
   onChange = e => {
@@ -30,7 +31,7 @@ class Create extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { title, description, category } = this.state;
+    const { title, description, category, writer } = this.state;
 
     const rawDraftContentState = JSON.stringify(
       convertToRaw(description.getCurrentContent())
@@ -42,13 +43,15 @@ class Create extends Component {
       .add({
         title,
         description: rawDraftContentState,
-        category
+        category,
+        writer
       })
       .then(docRef => {
         this.setState({
           title: "",
           description: EditorState.createEmpty(),
-          category: ""
+          category: "",
+          writer: ""
         });
         this.props.history.push("/");
       })
@@ -58,7 +61,7 @@ class Create extends Component {
   };
 
   render() {
-    const { title, description, category } = this.state;
+    const { title, description, category, writer } = this.state;
     return (
       <div class="container">
         <div class="panel panel-default">
@@ -94,6 +97,17 @@ class Create extends Component {
                   value={category}
                   onChange={this.onChange}
                   placeholder="category"
+                />
+              </div>
+              <div class="form-group">
+                <label for="writer">Writer:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="writer"
+                  value={writer}
+                  onChange={this.onChange}
+                  placeholder="writer"
                 />
               </div>
               <div class="back-submit">

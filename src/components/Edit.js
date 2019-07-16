@@ -32,7 +32,8 @@ class Edit extends Component {
           key: doc.id,
           title: Article.title,
           description: EditorState.createWithContent(converted),
-          category: Article.category
+          category: Article.category,
+          writer: Article.writer
         });
       } else {
         console.log("No such document!");
@@ -51,7 +52,7 @@ class Edit extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { title, description, category } = this.state;
+    const { title, description, category, writer } = this.state;
 
     const rawDraftContentState = JSON.stringify(
       convertToRaw(description.getCurrentContent())
@@ -65,14 +66,16 @@ class Edit extends Component {
       .set({
         title,
         description: rawDraftContentState,
-        category
+        category,
+        writer
       })
       .then(docRef => {
         this.setState({
           key: "",
           title: "",
           description: EditorState.createEmpty(),
-          category: ""
+          category: "",
+          writer: ""
         });
         this.props.history.push("/show/" + this.props.match.params.id);
       })
@@ -91,7 +94,7 @@ class Edit extends Component {
           <div class="panel-body">
             <h4>
               <Link to={`/show/${this.state.key}`} class="btn btn-primary">
-                Article List
+                Back
               </Link>
             </h4>
             <form onSubmit={this.onSubmit}>
@@ -122,6 +125,17 @@ class Edit extends Component {
                   value={this.state.category}
                   onChange={this.onChange}
                   placeholder="category"
+                />
+              </div>
+              <div class="form-group">
+                <label for="writer">Writer:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="writer"
+                  value={this.state.writer}
+                  onChange={this.onChange}
+                  placeholder="writer"
                 />
               </div>
               <button type="submit" class="btn btn-success">
