@@ -216,3 +216,10 @@ code {
 .align-right {
   text-align: right;
 }
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}

@@ -1,102 +1,28 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import "./App.css";
-import firebase from "./Firebase";
-import logo from "./static/logo.png";
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import Home from "./components/Home";
+import Edit from "./components/Edit";
+import Create from "./components/Create";
+import Show from "./components/Show";
+import Login from "./auth/login";
+import { AuthProvider } from "./auth/auth";
+import PrivateRoute from "./auth/privateRoute";
 
-import "./katex.css";
-import DraftRenderer from "./components/DraftRenderer";
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.ref = firebase.firestore().collection("article");
-    this.unsubscribe = null;
-    this.state = {
-      article: []
-    };
-  }
-
-  onCollectionUpdate = querySnapshot => {
-    const article = [];
-    querySnapshot.forEach(doc => {
-      const { title, description, category, writer } = doc.data();
-      article.push({
-        key: doc.id,
-        doc, // DocumentSnapshot
-        title,
-        description,
-        category,
-        writer
-      });
-    });
-    this.setState({
-      article
-    });
-  };
-
-  componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-  }
-
-  render() {
-    return (
-      <div>
-        <div
-          className="header"
-          style={{
-            width: "100%",
-            backgroundColor: "#79d279",
-            marginBottom: "20px"
-          }}
-        >
-          <div class="container">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "250px", padding: "10px 0px" }}
-            />
-          </div>
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <div>
+          <PrivateRoute exact path="/" component={Home} />
+          <PrivateRoute path="/edit/:id" component={Edit} />
+          <PrivateRoute path="/create" component={Create} />
+          <PrivateRoute path="/show/:id" component={Show} />
+          <Route exact path="/login" component={Login} />
         </div>
-        <div class="container">
-          <div className="content">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Article LIST</h3>
-              </div>
-              <div class="panel-body">
-                <h4>
-                  <Link to="/create">Add Article</Link>
-                </h4>
-                <table class="table table-stripe">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>category</th>
-                      <th>Writer</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.article.map(Article => (
-                      <tr>
-                        <td>
-                          <Link to={`/show/${Article.key}`}>
-                            {Article.title}
-                          </Link>
-                        </td>
-                        <td>{Article.category}</td>
-                        <td>{Article.writer}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+      </Router>
+    </AuthProvider>
+  );
+};
 
 export default App;

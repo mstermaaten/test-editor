@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAlignLeft,
   faAlignCenter,
-  faAlignRight
+  faAlignRight,
+  faBold,
+  faItalic
 } from "@fortawesome/free-solid-svg-icons";
 
 import { RichUtils, convertFromRaw } from "draft-js";
@@ -48,6 +50,8 @@ const BLOCK_TYPES = [
   { label: "H4", style: "header-four" },
   { label: "H5", style: "header-five" },
   { label: "H6", style: "header-six" },
+  { icon: faBold, label: "bold", style: "bold" },
+  { icon: faItalic, label: "italic", style: "italic" },
   { label: "Blockquote", style: "blockquote" },
   { label: "UL", style: "unordered-list-item" },
   { label: "OL", style: "ordered-list-item" },

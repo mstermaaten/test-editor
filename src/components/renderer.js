@@ -11,6 +11,12 @@ function blockRenderer(contentBlock) {
   if (type === "align-right") {
     return "align-right";
   }
+  if (type === "bold") {
+    return "bold";
+  }
+  if (type === "italic") {
+    return "italic";
+  }
 }
 
 export default blockRenderer;
