@@ -11,10 +11,19 @@ const DraftRenderer = ({ content }) => {
 
   const withContent = EditorState.createWithContent(converted);
 
+  function getBlockStyle(block) {
+    switch (block.getType()) {
+      case "blockquote":
+        return "RichEditor-blockquote";
+      default:
+        return null;
+    }
+  }
+
   return (
-    <div className="readonly-editor">
+    <div className="RichEditor-editor">
       <Editor
-        blockStyleFn={blockRenderer}
+        blockStyleFn={getBlockStyle}
         plugins={plugins}
         editorState={withContent}
         readOnly={true}

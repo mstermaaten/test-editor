@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { EditorState, RichUtils, convertToRaw } from "draft-js";
+import { RichUtils } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createKaTeXPlugin from "draft-js-katex-plugin";
 import katex from "katex";
-import blockRenderer from "./renderer";
 const kaTeXPlugin = createKaTeXPlugin({ katex });
 const { InsertButton } = kaTeXPlugin;
 
@@ -12,9 +11,8 @@ export const plugins = [kaTeXPlugin];
 export default class RichEditorExample extends Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
     this.focus = () => this.refs.editor.focus();
-    this.onChange = editorState => this.setState({ editorState });
+    this.onChange = editorState => this.props.setEditorState(editorState);
     this.handleKeyCommand = command => this._handleKeyCommand(command);
     this.onTab = e => this._onTab(e);
     this.toggleBlockType = type => this._toggleBlockType(type);
@@ -22,7 +20,7 @@ export default class RichEditorExample extends Component {
   }
 
   _handleKeyCommand(command) {
-    const { editorState } = this.state;
+    const { editorState } = this.props.editorState;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       this.onChange(newState);
@@ -33,21 +31,21 @@ export default class RichEditorExample extends Component {
 
   _onTab(e) {
     const maxDepth = 4;
-    this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+    this.onChange(RichUtils.onTab(e, this.props.editorState, maxDepth));
   }
 
   _toggleBlockType(blockType) {
-    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
+    this.onChange(RichUtils.toggleBlockType(this.props.editorState, blockType));
   }
 
   _toggleInlineStyle(inlineStyle) {
     this.onChange(
-      RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle)
+      RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle)
     );
   }
 
   render() {
-    const { editorState } = this.state;
+    const { editorState } = this.props;
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
