@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
-import Layout from "./Layout";
+import Version from './version';
 import { EditorState, convertToRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import LatexEditor from "./editor";
-import logo from "../static/logo.png";
+import Header from './header'
+
 
 class Create extends Component {
   constructor() {
@@ -16,7 +17,8 @@ class Create extends Component {
       title: "",
       description: EditorState.createEmpty(),
       category: "",
-      writer: ""
+      writer: "",
+      date: ""
     };
   }
   onChange = e => {
@@ -38,21 +40,30 @@ class Create extends Component {
       convertToRaw(description.getCurrentContent())
     );
 
+
+
     console.log("hhttmmll", stateToHTML(description.getCurrentContent()));
+
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let dateTime = date+'T'+time+'Z';
 
     this.ref
       .add({
         title,
         description: rawDraftContentState,
         category,
-        writer
+        writer,
+        date: dateTime
       })
       .then(docRef => {
         this.setState({
           title: "",
           description: EditorState.createEmpty(),
           category: "",
-          writer: ""
+          writer: "",
+          date: ""
         });
         this.props.history.push("/");
       })
@@ -65,22 +76,7 @@ class Create extends Component {
     const { title, description, category, writer } = this.state;
     return (
       <div>
-        <div
-          className="header"
-          style={{
-            width: "100%",
-            backgroundColor: "#79d279",
-            marginBottom: "20px"
-          }}
-        >
-          <div class="container" style={{ margin: "0px 70px 30px 70px" }}>
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "250px", padding: "10px 0px" }}
-            />
-          </div>
-        </div>
+        <Header />
         <div class="container">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -151,15 +147,7 @@ class Create extends Component {
               </form>
             </div>
           </div>
-          <div style={{ display: "block", margin: "auto", marginTop: "50px" }}>
-            <div>
-              &copy;{" "}
-              <a href="https://www.thelearningmachine.ai">
-                The Learning Machine
-              </a>
-              &nbsp; 2019. &nbsp;&nbsp; version 1.0.0
-            </div>
-          </div>
+          <Version />
         </div>
         <style jsx>{`
           .back-submit {
@@ -171,13 +159,6 @@ class Create extends Component {
 
           .back-submit button {
             margin-left: 10px;
-          }
-
-          .container {
-            display: block;
-            margin: auto;
-            margin-top: 30px;
-            margin-bottom: 30px;
           }
         `}</style>
       </div>

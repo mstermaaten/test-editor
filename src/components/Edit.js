@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import logo from "../static/logo.png";
 
-import Layout from "./Layout";
+import Header from './header'
+import Version from './version';
 import LatexEditor from "./editor";
 
 class Edit extends Component {
@@ -14,7 +15,8 @@ class Edit extends Component {
       key: "",
       title: "",
       description: EditorState.createEmpty(),
-      category: ""
+      category: "",
+      date: ""
     };
   }
 
@@ -34,7 +36,8 @@ class Edit extends Component {
           title: Article.title,
           description: EditorState.createWithContent(converted),
           category: Article.category,
-          writer: Article.writer
+          writer: Article.writer,
+          date: Article.date
         });
       } else {
         console.log("No such document!");
@@ -59,6 +62,11 @@ class Edit extends Component {
       convertToRaw(description.getCurrentContent())
     );
 
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let dateTime = date+'T'+time+'Z';
+
     const updateRef = firebase
       .firestore()
       .collection("article")
@@ -68,7 +76,8 @@ class Edit extends Component {
         title,
         description: rawDraftContentState,
         category,
-        writer
+        writer,
+        date: dateTime
       })
       .then(docRef => {
         this.setState({
@@ -76,7 +85,8 @@ class Edit extends Component {
           title: "",
           description: EditorState.createEmpty(),
           category: "",
-          writer: ""
+          writer: "",
+          date: ""
         });
         this.props.history.push("/show/" + this.props.match.params.id);
       })
@@ -88,22 +98,7 @@ class Edit extends Component {
   render() {
     return (
       <div>
-        <div
-          className="header"
-          style={{
-            width: "100%",
-            backgroundColor: "#79d279",
-            marginBottom: "20px"
-          }}
-        >
-          <div class="container" style={{ margin: "0px 70px 30px 70px" }}>
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "250px", padding: "10px 0px" }}
-            />
-          </div>
-        </div>
+        <Header />
         <div class="container">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -172,26 +167,8 @@ class Edit extends Component {
               </form>
             </div>
           </div>
-          <div style={{ display: "block", margin: "auto", marginTop: "50px" }}>
-            <div>
-              &copy;{" "}
-              <a href="https://www.thelearningmachine.ai">
-                The Learning Machine
-              </a>
-              &nbsp; 2019. &nbsp;&nbsp; version 1.0.0
-            </div>
-          </div>
+         <Version />
         </div>
-        <style jsx>
-          {`
-            .container {
-              display: block;
-              margin: auto;
-              margin-top: 30px;
-              margin-bottom: 30px;
-            }
-          `}
-        </style>
       </div>
     );
   }

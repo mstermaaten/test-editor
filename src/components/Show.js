@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import DraftRenderer from "./DraftRenderer";
-import logo from "../static/logo.png";
+import Header from './header'
+import Version from './version';
 
 class Show extends Component {
   constructor(props) {
@@ -49,22 +50,7 @@ class Show extends Component {
   render() {
     return (
       <div>
-        <div
-          className="header"
-          style={{
-            width: "100%",
-            backgroundColor: "#79d279",
-            marginBottom: "20px"
-          }}
-        >
-          <div class="container" style={{ margin: "0px 70px 30px 70px" }}>
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "250px", padding: "10px 0px" }}
-            />
-          </div>
-        </div>
+        <Header />
         <div class="container">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -102,26 +88,8 @@ class Show extends Component {
               </button>
             </div>
           </div>
-          <div style={{ marginTop: "50px" }}>
-            <div>
-              &copy;{" "}
-              <a href="https://www.thelearningmachine.ai">
-                The Learning Machine
-              </a>
-              &nbsp; 2019. &nbsp;&nbsp; version 1.0.0
-            </div>
-          </div>
+          <Version />
         </div>
-        <style jsx>
-          {`
-            .container {
-              display: block;
-              margin: auto;
-              margin-top: 30px;
-              margin-bottom: 30px;
-            }
-          `}
-        </style>
       </div>
     );
   }

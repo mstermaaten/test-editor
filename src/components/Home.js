@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
 import firebase from "../Firebase";
-import logo from "../static/logo.png";
+import Header from './header'
+import Version from './version';
 
 import "../katex.css";
 import DraftRenderer from "../components/DraftRenderer";
@@ -20,14 +21,15 @@ class Home extends Component {
   onCollectionUpdate = querySnapshot => {
     const article = [];
     querySnapshot.forEach(doc => {
-      const { title, description, category, writer } = doc.data();
+      const { title, description, category, writer, date } = doc.data();
       article.push({
         key: doc.id,
         doc, // DocumentSnapshot
         title,
         description,
         category,
-        writer
+        writer,
+        date
       });
     });
     this.setState({
@@ -36,29 +38,14 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    this.unsubscribe = this.ref.orderBy('date').onSnapshot(this.onCollectionUpdate);
   }
 
   render() {
     return (
       <div>
-        <div
-          className="header"
-          style={{
-            width: "100%",
-            backgroundColor: "#79d279",
-            marginBottom: "20px"
-          }}
-        >
-          <div class="container">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "250px", padding: "10px 0px" }}
-            />
-          </div>
-        </div>
-        <div class="container">
+        <Header />
+        <div class="container" style={{marginBottom: "30px"}}>
           <div className="content">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -76,18 +63,20 @@ class Home extends Component {
                       <th>Title</th>
                       <th>category</th>
                       <th>Writer</th>
+                      <th>Show Article</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.article.map(Article => (
+                    {this.state.article.reverse().map(Article => (
                       <tr>
                         <td>
-                          <Link to={`/show/${Article.key}`}>
                             {Article.title}
-                          </Link>
                         </td>
                         <td>{Article.category}</td>
                         <td>{Article.writer}</td>
+                        <td><Link to={`/show/${Article.key}`} class="btn btn-success" style={{marginTop: "5px"}}>
+                          Show
+                        </Link></td>
                       </tr>
                     ))}
                   </tbody>
@@ -95,15 +84,7 @@ class Home extends Component {
               </div>
             </div>
           </div>
-          <div style={{ display: "block", margin: "auto", marginTop: "50px" }}>
-            <div>
-              &copy;{" "}
-              <a href="https://www.thelearningmachine.ai">
-                The Learning Machine
-              </a>
-              &nbsp; 2019. &nbsp;&nbsp; version 1.0.0
-            </div>
-          </div>
+          <Version />
         </div>
       </div>
     );

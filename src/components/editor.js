@@ -49,7 +49,7 @@ export default class RichEditorExample extends Component {
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
-    let className = "RichEditor-editor";
+    let className = "RichEditor-editor editor-inner";
     var contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (
@@ -72,6 +72,7 @@ export default class RichEditorExample extends Component {
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
           />
+          <div className="editor-outer">
           <div className={className} onClick={this.focus}>
             <Editor
               blockStyleFn={getBlockStyle}
@@ -85,6 +86,7 @@ export default class RichEditorExample extends Component {
               ref="editor"
               spellCheck={true}
             />
+            </div>
           </div>
         </div>
       </div>
@@ -103,10 +105,7 @@ const styleMap = {
 
 function getBlockStyle(block) {
   switch (block.getType()) {
-    case "blockquote":
-      return "RichEditor-blockquote";
-    default:
-      return null;
+    case"blockquote":return"RichEditor-blockquote";case"left":return"align-left";case"center":return"align-center";case"right":return"align-right";default:return null
   }
 }
 
