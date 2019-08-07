@@ -6,7 +6,6 @@ import Header from './header'
 import Version from './version';
 
 import "../katex.css";
-import DraftRenderer from "../components/DraftRenderer";
 
 class Home extends Component {
   constructor(props) {

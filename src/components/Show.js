@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
-import DraftRenderer from "./DraftRenderer";
 import Header from './header'
 import Version from './version';
+import 'react-quill/dist/quill.core.css';
+import 'react-quill/dist/quill.snow.css';
 
 class Show extends Component {
   constructor(props) {
@@ -47,7 +48,10 @@ class Show extends Component {
       });
   }
 
+
+
   render() {
+    let descr = this.state.Article.description;
     return (
       <div>
         <Header />
@@ -66,7 +70,8 @@ class Show extends Component {
               >
                 <dt>Description:</dt>
                 <dd>
-                  <DraftRenderer content={this.state.Article.description} />
+                  <div dangerouslySetInnerHTML={{__html: descr}}>
+                  </div>
                 </dd>
                 <dt>category:</dt>
                 <dd>{this.state.Article.category}</dd>

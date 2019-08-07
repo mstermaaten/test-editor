@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
-import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import logo from "../static/logo.png";
-
 import Header from './header'
 import Version from './version';
-import LatexEditor from "./editor";
+import ReactQuill, { Quill } from "react-quill";
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.core.css';
 
 class Edit extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Edit extends Component {
     this.state = {
       key: "",
       title: "",
-      description: EditorState.createEmpty(),
+      description: "",
       category: "",
       date: ""
     };
@@ -29,12 +29,11 @@ class Edit extends Component {
       if (doc.exists) {
         const Article = doc.data();
 
-        const converted = convertFromRaw(JSON.parse(Article.description));
 
         this.setState({
           key: doc.id,
           title: Article.title,
-          description: EditorState.createWithContent(converted),
+          description: Article.description,
           category: Article.category,
           writer: Article.writer,
           date: Article.date
@@ -58,9 +57,6 @@ class Edit extends Component {
 
     const { title, description, category, writer } = this.state;
 
-    const rawDraftContentState = JSON.stringify(
-      convertToRaw(description.getCurrentContent())
-    );
 
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -74,7 +70,7 @@ class Edit extends Component {
     updateRef
       .set({
         title,
-        description: rawDraftContentState,
+        description,
         category,
         writer,
         date: dateTime
@@ -83,7 +79,7 @@ class Edit extends Component {
         this.setState({
           key: "",
           title: "",
-          description: EditorState.createEmpty(),
+          description: "",
           category: "",
           writer: "",
           date: ""
@@ -94,6 +90,29 @@ class Edit extends Component {
         console.error("Error adding document: ", error);
       });
   };
+
+  modules = {
+    toolbar: [
+      ['formula'],
+      [{ 'header': [1, 2, false] }],
+      [{'align': ['','center', 'right', 'justify']}],
+      ['blockquote', 'code-block'],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image', 'video']
+    ],
+  }
+ 
+  formats = [
+    'formula',
+    'header',
+    'align',
+    'blockquote', 'code-block',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'video'
+  ]
+
 
   render() {
     return (
@@ -124,9 +143,12 @@ class Edit extends Component {
                 </div>
                 <div class="form-group">
                   <label for="description">Description:</label>
-                  <LatexEditor
-                    editorState={this.state.description}
-                    setEditorState={this.setEditorState}
+                  <ReactQuill 
+                    value={this.state.description}
+                    onChange={this.setEditorState}
+                    theme="snow"
+                    modules={this.modules}
+                    formats={this.formats}
                   />
                 </div>
                 <div class="input-group mb-3">
