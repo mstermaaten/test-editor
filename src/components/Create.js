@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Version from './version';
 import Header from './header'
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 
@@ -69,10 +68,11 @@ class Create extends Component {
   modules = {
     toolbar: [
       ['formula'],
-      [{ 'header': [1, 2, false] }],
+      [{ 'header': [1, 2, false] }, { 'font': [] }],
       [{'align': ['','center', 'right', 'justify']}],
       ['blockquote', 'code-block'],
       ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{ 'color': [] }, { 'background': [] }],
       [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
       ['link', 'image', 'video']
     ],
@@ -81,16 +81,18 @@ class Create extends Component {
   formats = [
     'formula',
     'header',
+    'font',
     'align',
     'blockquote', 'code-block',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'color', 'background',
     'list', 'bullet', 'indent',
     'link', 'image', 'video'
   ]
 
 
   render() {
-    const { title, description, category, writer } = this.state;
+    const { title, description, writer } = this.state;
     return (
       <div>
         <Header />
@@ -113,11 +115,11 @@ class Create extends Component {
                   />
                 </div>
                 <div class="form-group">
-                  <label for="description">description:</label>
+                  <label for="description">Description:</label>
                   <ReactQuill 
                     value={description}
                     onChange={this.setEditorState}
-                    theme="snow"
+                    theme={'snow'}
                     modules={this.modules}
                     formats={this.formats}
                   />

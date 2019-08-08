@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
-import logo from "../static/logo.png";
 import Header from './header'
 import Version from './version';
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 

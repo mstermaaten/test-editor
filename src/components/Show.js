@@ -70,7 +70,7 @@ class Show extends Component {
               >
                 <dt>Description:</dt>
                 <dd>
-                  <div dangerouslySetInnerHTML={{__html: descr}}>
+                  <div class="ql-editor" dangerouslySetInnerHTML={{__html: descr}}>
                   </div>
                 </dd>
                 <dt>category:</dt>
