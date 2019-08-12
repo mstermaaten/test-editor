@@ -8,7 +8,7 @@ const Version = () => {
               <a href="https://www.thelearningmachine.ai">
                 The Learning Machine
               </a>
-              &nbsp; 2019. &nbsp;&nbsp; version 1.0.2
+              &nbsp; 2019. &nbsp;&nbsp; version 1.1.0
             </div>
     </div>
   )
