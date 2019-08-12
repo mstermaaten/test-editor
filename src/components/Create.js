@@ -3,9 +3,13 @@ import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Version from './version';
 import Header from './header'
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from 'react-quill';
+import ImageResize from 'quill-image-resize-module';
+
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
+
+Quill.register('modules/ImageResize', ImageResize);
 
 
 class Create extends Component {
@@ -65,7 +69,12 @@ class Create extends Component {
       });
   };
 
+  
+  
+
   modules = {
+    ImageResize: {
+  },
     toolbar: [
       ['formula'],
       [{ 'header': [1, 2, false] }, { 'font': [] }],
@@ -74,7 +83,7 @@ class Create extends Component {
       ['bold', 'italic', 'underline','strike', 'blockquote'],
       [{ 'color': [] }, { 'background': [] }],
       [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image', 'video']
+      ['link', 'image', 'video'],
     ],
   }
  
