@@ -85,7 +85,7 @@ class Create extends Component {
       [{ 'header': [1, 2, false] }, { 'font': [] }],
       [{'align': ['','center', 'right', 'justify']}],
       ['blockquote', 'code-block'],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      ['bold', 'italic', 'underline','strike'],
       [{ 'color': [] }, { 'background': [] }],
       [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
       ['link', 'image', 'video'],
@@ -133,7 +133,7 @@ class Create extends Component {
                   <ReactQuill 
                     value={description}
                     onChange={this.setEditorState}
-                    theme={'snow'}
+    
                     modules={this.modules}
                     formats={this.formats}
                   />

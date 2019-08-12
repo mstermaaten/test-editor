@@ -3,7 +3,6 @@ import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Header from './header'
 import Version from './version';
-import 'react-quill/dist/quill.core.css';
 import 'react-quill/dist/quill.snow.css';
 
 class Show extends Component {
@@ -70,7 +69,7 @@ class Show extends Component {
               >
                 <dt>Description:</dt>
                 <dd>
-                  <div class="ql-snow ql-editor" dangerouslySetInnerHTML={{__html: descr}}>
+                  <div class="ql-editor" dangerouslySetInnerHTML={{__html: descr}}>
                   </div>
                 </dd>
                 <dt>category:</dt>

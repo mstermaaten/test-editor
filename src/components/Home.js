@@ -37,7 +37,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.unsubscribe = this.ref.orderBy('date').onSnapshot(this.onCollectionUpdate);
+    this.unsubscribe = this.ref.orderBy('date', "asc").onSnapshot(this.onCollectionUpdate);
   }
 
   render() {
