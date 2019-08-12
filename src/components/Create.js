@@ -10,6 +10,7 @@ import ImageResize from 'quill-image-resize-module';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 
+
 Quill.register('modules/ImageResize', ImageResize);
 Quill.register('modules/ImageDrop', ImageDrop)
 

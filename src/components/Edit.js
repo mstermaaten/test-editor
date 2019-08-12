@@ -3,9 +3,15 @@ import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Header from './header'
 import Version from './version';
-import ReactQuill from "react-quill";
+import ReactQuill, {Quill} from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
+
+import {ImageDrop} from 'quill-image-drop-module'
+import ImageResize from 'quill-image-resize-module';
+
+Quill.register('modules/ImageResize', ImageResize);
+Quill.register('modules/ImageDrop', ImageDrop);
 
 class Edit extends Component {
   constructor(props) {
@@ -91,6 +97,10 @@ class Edit extends Component {
   };
 
   modules = {
+    ImageDrop: true,
+    ImageResize: {
+  },
+
     toolbar: [
       ['formula'],
       [{ 'header': [1, 2, false] }],
