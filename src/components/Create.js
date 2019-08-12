@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import Version from './version';
 import Header from './header'
 import ReactQuill, { Quill } from 'react-quill';
+import {ImageDrop} from 'quill-image-drop-module'
 import ImageResize from 'quill-image-resize-module';
 
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 
 Quill.register('modules/ImageResize', ImageResize);
+Quill.register('modules/ImageDrop', ImageDrop)
+
 
 
 class Create extends Component {
@@ -73,6 +76,7 @@ class Create extends Component {
   
 
   modules = {
+    ImageDrop: true,
     ImageResize: {
   },
     toolbar: [
