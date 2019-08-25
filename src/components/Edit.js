@@ -125,7 +125,7 @@ class Edit extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: "#f2f2f2"}}>
         <Header />
         <div class="container">
           <div class="panel panel-default">
@@ -153,6 +153,7 @@ class Edit extends Component {
                 <div class="form-group">
                   <label for="description">Description:</label>
                   <ReactQuill 
+                  style={{backgroundColor: "#ffffff"}}
                     value={this.state.description}
                     onChange={this.setEditorState}
                     theme="snow"

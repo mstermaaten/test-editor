@@ -108,7 +108,7 @@ class Create extends Component {
   render() {
     const { title, description, writer } = this.state;
     return (
-      <div>
+      <div style={{backgroundColor: "#f2f2f2"}}>
         <Header />
         <div class="container">
           <div class="panel panel-default">
@@ -131,6 +131,7 @@ class Create extends Component {
                 <div class="form-group">
                   <label for="description">Description:</label>
                   <ReactQuill 
+                  style={{backgroundColor: "#ffffff"}}
                     value={description}
                     onChange={this.setEditorState}
     

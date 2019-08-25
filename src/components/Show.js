@@ -52,7 +52,7 @@ class Show extends Component {
   render() {
     let descr = this.state.Article.description;
     return (
-      <div>
+      <div style={{backgroundColor: "#f2f2f2"}}>
         <Header />
         <div class="container">
           <div class="panel panel-default">
@@ -61,9 +61,12 @@ class Show extends Component {
             </div>
             <div class="panel-body">
               <dl
+              
                 style={{
+                  backgroundColor: "#ffffff", 
+                  boxShadow: "-2px 0px 40px -17px rgba(0,0,0,0.75)", 
+                  borderRadius: "5px",
                   border: "1px solid lightgrey",
-                  borderRadius: "10px",
                   padding: "10px"
                 }}
               >

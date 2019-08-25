@@ -41,8 +41,9 @@ class Home extends Component {
   }
 
   render() {
+
     return (
-      <div>
+      <div style={{backgroundColor: "#f2f2f2"}}>
         <Header />
         <div class="container" style={{marginBottom: "30px"}}>
           <div className="content">
@@ -51,13 +52,13 @@ class Home extends Component {
                 <h3 class="panel-title">Article LIST</h3>
               </div>
               <div class="panel-body">
-                <button class="btn btn-primary" style={{ margin: "10px 0px" }}>
+                <button class="btn btn-primary" style={{ backgroundColor: "#6773DE", margin: "10px 0px" }}>
                   <Link to="/create" style={{ color: "white" }}>
                     Add Article
                   </Link>
                 </button>
-                <table class="table table-stripe">
-                  <thead>
+                <table class="table table-stripe" style={{ backgroundColor: "#ffffff", boxShadow: "-2px 0px 40px -17px rgba(0,0,0,0.75)", borderRadius: "5px"}}>
+                  <thead >
                     <tr>
                       <th>Title</th>
                       <th>category</th>
@@ -73,7 +74,7 @@ class Home extends Component {
                         </td>
                         <td>{Article.category}</td>
                         <td>{Article.writer}</td>
-                        <td><Link to={`/show/${Article.key}`} class="btn btn-success" style={{marginTop: "5px"}}>
+                        <td><Link to={`/show/${Article.key}`} class="btn btn-success" style={{border: "none", backgroundColor: "#01afb2", marginTop: "5px"}}>
                           Show
                         </Link></td>
                       </tr>

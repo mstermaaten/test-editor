@@ -4,7 +4,7 @@ import firebase from "../Firebase";
 import { AuthContext } from "./auth";
 import { async } from "q";
 import { app } from "firebase";
-import logo from "../static/logo.png";
+import logo from "../static/TLM-purple.png";
 
 const Login = ({ history }) => {
   const handleLogin = useCallback(
@@ -76,7 +76,7 @@ const Login = ({ history }) => {
 
         .img-wrap {
           width: 100%;
-          background-color: #79d279;
+          background-color: #262626;
           border-radius: 10px 10px 0px 0px;
           margin-top: 50px;
           padding: 10px 0px;

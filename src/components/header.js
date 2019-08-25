@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from "../Firebase";
-import logo from "../static/logo.png";
+import logo from "../static/TLM-purple.png";
 import { Link } from "react-router-dom";
 
 
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
           className="header"
           style={{
             width: "100%",
-            backgroundColor: "#79d279",
+            backgroundColor: "#262626",
             marginBottom: "20px"
           }}
         >
