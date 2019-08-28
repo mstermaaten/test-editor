@@ -125,7 +125,7 @@ class Edit extends Component {
 
   render() {
     return (
-      <div style={{backgroundColor: "#f2f2f2"}}>
+      <div style={{ backgroundColor: "#f2f2f2", height: "100%" }}>
         <Header />
         <div class="container">
           <div class="panel panel-default">

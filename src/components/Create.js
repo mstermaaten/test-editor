@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
-import Version from './version';
-import Header from './header'
-import ReactQuill, { Quill } from 'react-quill';
-import {ImageDrop} from 'quill-image-drop-module'
-import ImageResize from 'quill-image-resize-module';
+import Version from "./version";
+import Header from "./header";
+import ReactQuill, { Quill } from "react-quill";
+import { ImageDrop } from "quill-image-drop-module";
+import ImageResize from "quill-image-resize-module";
 
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.core.css';
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.core.css";
 
-
-Quill.register('modules/ImageResize', ImageResize);
-Quill.register('modules/ImageDrop', ImageDrop)
-
-
+Quill.register("modules/ImageResize", ImageResize);
+Quill.register("modules/ImageDrop", ImageDrop);
 
 class Create extends Component {
   constructor() {
@@ -29,7 +26,6 @@ class Create extends Component {
     };
   }
 
-  
   onChange = e => {
     const state = this.state;
     state[e.target.name] = e.target.value;
@@ -46,9 +42,15 @@ class Create extends Component {
     const { title, description, category, writer } = this.state;
 
     let today = new Date();
-    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    let dateTime = date+'T'+time+'Z';
+    let date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    let time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let dateTime = date + "T" + time + "Z";
 
     this.ref
       .add({
@@ -73,42 +75,52 @@ class Create extends Component {
       });
   };
 
-  
-  
-
   modules = {
     ImageDrop: true,
-    ImageResize: {
-  },
+    ImageResize: {},
     toolbar: [
-      ['formula'],
-      [{ 'header': [1, 2, false] }, { 'font': [] }],
-      [{'align': ['','center', 'right', 'justify']}],
-      ['blockquote', 'code-block'],
-      ['bold', 'italic', 'underline','strike'],
-      [{ 'color': [] }, { 'background': [] }],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image', 'video'],
-    ],
-  }
- 
-  formats = [
-    'formula',
-    'header',
-    'font',
-    'align',
-    'blockquote', 'code-block',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'color', 'background',
-    'list', 'bullet', 'indent',
-    'link', 'image', 'video'
-  ]
+      ["formula"],
+      [{ header: [1, 2, false] }, { font: [] }],
+      [{ align: ["", "center", "right", "justify"] }],
+      ["blockquote", "code-block"],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" }
+      ],
+      ["link", "image", "video"]
+    ]
+  };
 
+  formats = [
+    "formula",
+    "header",
+    "font",
+    "align",
+    "blockquote",
+    "code-block",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "color",
+    "background",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video"
+  ];
 
   render() {
     const { title, description, writer } = this.state;
     return (
-      <div style={{backgroundColor: "#f2f2f2"}}>
+      <div style={{ backgroundColor: "#f2f2f2", height: "100%" }}>
         <Header />
         <div class="container">
           <div class="panel panel-default">
@@ -130,15 +142,13 @@ class Create extends Component {
                 </div>
                 <div class="form-group">
                   <label for="description">Description:</label>
-                  <ReactQuill 
-                  style={{backgroundColor: "#ffffff"}}
+                  <ReactQuill
+                    style={{ backgroundColor: "#ffffff" }}
                     value={description}
                     onChange={this.setEditorState}
-    
                     modules={this.modules}
                     formats={this.formats}
                   />
-              
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -156,9 +166,47 @@ class Create extends Component {
                   >
                     <option value="Select">Select</option>
                     <option value="Regression">Regression</option>
-                    <option value="Classification">Classification</option>
+                    <option value="classification">classification</option>
                     <option value="Clustering">Clustering</option>
                     <option value="Generation">Generation</option>
+                    <option value="Dimensionality-Linear">
+                      Dimensionality Reduction (Linear)
+                    </option>
+                    <option value="Dimensionality-Non-Linear">
+                      Dimensionality Reduction (Non-Linear)
+                    </option>
+                    <optgroup label="Evaluation Metrics Selection (Supervides)">
+                      <option value="Evaluation-Binary">
+                        Binary Classification
+                      </option>
+                      <option value="Evaluation-Multiclass">
+                        Multiclass Classification
+                      </option>
+                      <option value="Evaluation-Univariate">
+                        Univariate Regression
+                      </option>
+                      <option value="Evaluation-Multivariate">
+                        Multivariate Regression
+                      </option>
+                    </optgroup>
+                    <optgroup label="Evaluation Metrics Selection (Unsupervised)">
+                      <option value="Evaluation-Cluster">Clustering</option>
+                      <option value="Evaluation-NLP">NLP</option>
+                    </optgroup>
+                    <optgroup label="Handling Overfitting (Models)">
+                      <option value="Overfitting-Regres">Regression</option>
+                      <option value="Overfitting-Tree">
+                        Tree-Based Models
+                      </option>
+                      <option value="Overfitting-Neural">
+                        Neural Networks
+                      </option>
+                    </optgroup>
+                    <option value="Overfitting-General">
+                      Handling Overfitting (General)
+                    </option>
+                    <option value="Imbalanced-Under">Undersampling</option>
+                    <option value="Imbalanced-Over">Oversampling</option>
                   </select>
                 </div>
                 <div class="form-group">
