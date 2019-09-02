@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import firebase from "../Firebase";
 import { Link } from "react-router-dom";
-import Header from './header'
-import Version from './version';
-import 'react-quill/dist/quill.snow.css';
+import Header from "./header";
+import Version from "./version";
+
+import "./styles.css";
 
 class Show extends Component {
   constructor(props) {
@@ -47,8 +48,6 @@ class Show extends Component {
       });
   }
 
-
-
   render() {
     let descr = this.state.Article.description;
     return (
@@ -61,10 +60,9 @@ class Show extends Component {
             </div>
             <div class="panel-body">
               <dl
-              
                 style={{
-                  backgroundColor: "#ffffff", 
-                  boxShadow: "-2px 0px 40px -17px rgba(0,0,0,0.75)", 
+                  backgroundColor: "#ffffff",
+                  boxShadow: "-2px 0px 40px -17px rgba(0,0,0,0.75)",
                   borderRadius: "5px",
                   border: "1px solid lightgrey",
                   padding: "10px"
@@ -72,7 +70,11 @@ class Show extends Component {
               >
                 <dt>Description:</dt>
                 <dd>
-                  <div class="ql-editor" dangerouslySetInnerHTML={{__html: descr}}>
+                  <div className="ql-snow">
+                    <div
+                      className="ql-editor"
+                      dangerouslySetInnerHTML={{ __html: descr }}
+                    ></div>
                   </div>
                 </dd>
                 <dt>category:</dt>
