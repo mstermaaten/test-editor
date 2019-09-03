@@ -79,7 +79,7 @@ class Home extends Component {
                       <th>Show Article</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="home">
                     {this.state.article.reverse().map(Article => (
                       <tr>
                         <td>{Article.title}</td>

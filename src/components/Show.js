@@ -71,10 +71,9 @@ class Show extends Component {
                 <dt>Description:</dt>
                 <dd>
                   <div className="ql-snow">
-                    <div
-                      className="ql-editor"
-                      dangerouslySetInnerHTML={{ __html: descr }}
-                    ></div>
+                    <div className="ql-editor">
+                      <div className="read-only" dangerouslySetInnerHTML={{ __html: descr }}></div>
+                    </div>
                   </div>
                 </dd>
                 <dt>category:</dt>

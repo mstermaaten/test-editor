@@ -94,14 +94,9 @@
   border-collapse: collapse;
 }
 .ql-editor td {
-  border: 1px solid #000;
+  border: none;
   padding: 2px 5px;
 }
-
-.ql-snow .ql-editor .read-only td {
-  border: none;
-}
-
 .ql-editor ol {
   padding-left: 1.5em;
 }

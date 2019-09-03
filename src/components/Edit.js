@@ -54,7 +54,7 @@ class Edit extends Component {
         table: true,
         toolbar: [
           ["formula"],
-          [{ header: [1, 2, false] }, { font: [] }],
+          [{ header: [1, 2, false, 5] }, { font: [] }],
           [{ align: ["", "center", "right", "justify"] }],
           ["code-block"],
           ["bold", "italic", "underline", "strike"],
@@ -202,6 +202,7 @@ class Edit extends Component {
                     style={{ backgroundColor: "#ffffff" }}
                     value={this.state.description}
                     onChange={this.setEditorState}
+                    dangerouslySetInnerHTML={{__html: this.state.description}}
                   ></div>
                   <button id="insert-table">add Table</button>
                   <button id="insert-row-above">add Row</button>

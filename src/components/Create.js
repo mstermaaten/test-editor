@@ -7,7 +7,6 @@ import Quill from "quill2-dev";
 import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
 
-
 import "./styles.css";
 
 Quill.register("modules/ImageResize", ImageResize);
@@ -34,8 +33,8 @@ class Create extends Component {
         ImageResize: {},
         table: true,
         toolbar: [
-          ["formula"],
-          [{ header: [1, 2, false] }, { font: [] }],
+          ["formula", "table"],
+          [{ header: [1, 2, false, 5] }, { font: [] }],
           [{ align: ["", "center", "right", "justify"] }],
           ["code-block"],
           ["bold", "italic", "underline", "strike"],
@@ -51,14 +50,11 @@ class Create extends Component {
       }
     };
 
+
+
     const editor = new Quill("#ql-editor", options);
     const table = editor.getModule("table");
 
-    document
-      .querySelector("#insert-table")
-      .addEventListener("click", function() {
-        table.insertTable(2, 2);
-      });
     document
       .querySelector("#insert-row-above")
       .addEventListener("click", function() {
@@ -176,14 +172,14 @@ class Create extends Component {
                     value={description}
                     onChange={this.setEditorState}
                   ></div>
-                  <button id="insert-table">add Table</button>
+                 <div className="button-container">
                   <button id="insert-row-above">add Row</button>
                   <button id="insert-row-below">add Row Below</button>
                   <button id="insert-column-left">add Column Left</button>
                   <button id="insert-column-right">add Column Right</button>
                   <button id="delete-row">Delete Row</button>
                   <button id="delete-column">Delete Column</button>
-                  <button id="delete-table">Delete Table</button>
+                  <button id="delete-table">Delete Table</button> </div>
                 </div>
               </div>
               <div class="input-group mb-3">
