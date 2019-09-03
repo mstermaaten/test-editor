@@ -668,9 +668,9 @@
   margin-top: 5px;
   padding: 5px 10px;
 }
-.ql-snow .ql-editor .ql-code-block code {
+.ql-snow .ql-editor code {
   font-size: 85%;
-  padding: 2px 4px;
+  padding: 3px 8px;
 }
 .ql-snow .ql-editor .ql-code-block-container {
   background-color: #23241f;
@@ -681,7 +681,7 @@
   max-width: 100%;
 }
 
-.ql-editor .ql-code-block code,
+.ql-editor code,
 .ql-editor pre {
  background-color: #353535;
  color: white;
@@ -693,7 +693,7 @@
  margin-bottom: 5px;
  margin-top: 5px;
 }
-.ql-editor .ql-code-block code {
+.ql-editor code {
  font-size: 85%;
  padding-bottom: 2px;
  padding-top: 2px;

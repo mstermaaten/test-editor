@@ -34,9 +34,9 @@ class Create extends Component {
         table: true,
         toolbar: [
           ["formula", "table"],
-          [{ header: [1, 2, false, 5] }, { font: [] }],
+          [{ size: [] }, { header: [1, 2, 3, 5] }],
           [{ align: ["", "center", "right", "justify"] }],
-          ["code-block"],
+          ["code", "code-block"],
           ["bold", "italic", "underline", "strike"],
           [{ color: [] }, { background: [] }],
           [
@@ -45,7 +45,8 @@ class Create extends Component {
             { indent: "-1" },
             { indent: "+1" }
           ],
-          ["link", "image", "video"]
+          ["link", "image", "video"],
+          ["clean"]
         ]
       }
     };

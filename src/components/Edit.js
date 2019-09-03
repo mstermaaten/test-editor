@@ -53,10 +53,10 @@ class Edit extends Component {
         ImageResize: {},
         table: true,
         toolbar: [
-          ["formula"],
-          [{ header: [1, 2, false, 5] }, { font: [] }],
+          ["formula", "table"],
+          [{ size: [] }, { header: [1, 2, 3, 5] }],
           [{ align: ["", "center", "right", "justify"] }],
-          ["code-block"],
+          ["code", "code-block"],
           ["bold", "italic", "underline", "strike"],
           [{ color: [] }, { background: [] }],
           [
@@ -65,7 +65,8 @@ class Edit extends Component {
             { indent: "-1" },
             { indent: "+1" }
           ],
-          ["link", "image", "video"]
+          ["link", "image", "video"],
+          ["clean"]
         ]
       }
     };
