@@ -12,6 +12,7 @@ import "./styles.css";
 Quill.register("modules/ImageResize", ImageResize);
 Quill.register("modules/ImageDrop", ImageDrop);
 
+
 class Create extends Component {
   constructor() {
     super();
@@ -21,9 +22,10 @@ class Create extends Component {
       description: "",
       category: "",
       writer: "",
-      date: ""
+      date: "",
     };
   }
+
 
   componentDidMount() {
     let options = {
@@ -50,12 +52,11 @@ class Create extends Component {
         ]
       }
     };
-
-
+        
 
     const editor = new Quill("#ql-editor", options);
     const table = editor.getModule("table");
-
+   
     document
       .querySelector("#insert-row-above")
       .addEventListener("click", function() {
@@ -90,6 +91,7 @@ class Create extends Component {
         table.deleteTable();
       });
 
+   
   }
 
   onChange = e => {
@@ -121,7 +123,7 @@ class Create extends Component {
     this.ref
       .add({
         title,
-        description: document.querySelector('#ql-editor').children[0].innerHTML,
+        description: document.getElementById("ql-editor").innerHTML,
         category,
         writer,
         date: dateTime
@@ -144,7 +146,7 @@ class Create extends Component {
   render() {
     const { title, description, writer } = this.state;
     return (
-      <div style={{ backgroundColor: "#f2f2f2", height: "100%" }}>
+      <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
         <div class="container">
           <div class="panel panel-default">

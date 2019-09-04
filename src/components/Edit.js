@@ -5,6 +5,7 @@ import Header from "./header";
 import Version from "./version";
 import Quill from "quill2-dev";
 import "./styles.css";
+import "../katex.css";
 
 import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
@@ -33,6 +34,31 @@ class Edit extends Component {
       if (doc.exists) {
         const Article = doc.data();
 
+        let options = {
+          theme: "snow",
+          modules: {
+            ImageDrop: true,
+            ImageResize: {},
+            table: true,
+            toolbar: [
+              ["formula", "table"],
+              [{ size: [] }, { header: [1, 2, 3, 5] }],
+              [{ align: ["", "center", "right", "justify"] }],
+              ["code", "code-block"],
+              ["bold", "italic", "underline", "strike"],
+              [{ color: [] }, { background: [] }],
+              [
+                { list: "ordered" },
+                { list: "bullet" },
+                { indent: "-1" },
+                { indent: "+1" }
+              ],
+              ["link", "image", "video"],
+              ["clean"]
+            ]
+          }
+        };
+
         this.setState({
           key: doc.id,
           title: Article.title,
@@ -41,40 +67,12 @@ class Edit extends Component {
           writer: Article.writer,
           date: Article.date
         });
-      } else {
-        console.log("No such document!");
-      }
-    });
+    
+        const editor = new Quill("#ql-editor", options);
+        editor.clipboard.dangerouslyPasteHTML(0, `${Article.description}`);
+        const table = editor.getModule("table");
 
-    let options = {
-      theme: "snow",
-      modules: {
-        ImageDrop: true,
-        ImageResize: {},
-        table: true,
-        toolbar: [
-          ["formula", "table"],
-          [{ size: [] }, { header: [1, 2, 3, 5] }],
-          [{ align: ["", "center", "right", "justify"] }],
-          ["code", "code-block"],
-          ["bold", "italic", "underline", "strike"],
-          [{ color: [] }, { background: [] }],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" }
-          ],
-          ["link", "image", "video"],
-          ["clean"]
-        ]
-      }
-    };
-
-    const editor = new Quill("#ql-editor", options);
-    const table = editor.getModule("table");
-
-    document
+        document
       .querySelector("#insert-table")
       .addEventListener("click", function() {
         table.insertTable(2, 2);
@@ -112,6 +110,13 @@ class Edit extends Component {
       .addEventListener("click", function() {
         table.deleteTable();
       });
+    
+      } else {
+        console.log("No such document!");
+      }
+    });
+
+
   }
 
   onChange = e => {
@@ -145,7 +150,7 @@ class Edit extends Component {
     updateRef
       .set({
         title,
-        description: document.querySelector("#ql-editor").children[0].innerHTML,
+        description: document.querySelector("#ql-editor").firstChild.innerHTML,
         category,
         writer,
         date: dateTime
@@ -168,8 +173,11 @@ class Edit extends Component {
 
 
   render() {
+    console.log(firebase
+      .firestore()
+      .collection("article"));
     return (
-      <div style={{ backgroundColor: "#f2f2f2", height: "100%" }}>
+      <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
         <div class="container">
           <div class="panel panel-default">
@@ -203,8 +211,8 @@ class Edit extends Component {
                     style={{ backgroundColor: "#ffffff" }}
                     value={this.state.description}
                     onChange={this.setEditorState}
-                    dangerouslySetInnerHTML={{__html: this.state.description}}
                   ></div>
+                  <div className="button-container">
                   <button id="insert-table">add Table</button>
                   <button id="insert-row-above">add Row</button>
                   <button id="insert-row-below">add Row Below</button>
@@ -213,6 +221,7 @@ class Edit extends Component {
                   <button id="delete-row">Delete Row</button>
                   <button id="delete-column">Delete Column</button>
                   <button id="delete-table">Delete Table</button>
+                  </div>
                 </div>
               </div>
               <div class="input-group mb-3">

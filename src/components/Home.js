@@ -4,8 +4,11 @@ import "../App.css";
 import firebase from "../Firebase";
 import Header from "./header";
 import Version from "./version";
+import DataTable from "react-data-table-component";
+
 
 import "../katex.css";
+
 
 class Home extends Component {
   constructor(props) {
@@ -13,7 +16,7 @@ class Home extends Component {
     this.ref = firebase.firestore().collection("article");
     this.unsubscribe = null;
     this.state = {
-      article: []
+      article: [],
     };
   }
 
@@ -43,8 +46,51 @@ class Home extends Component {
   }
 
   render() {
+
+    const columns = [
+      {
+        name: "Title",
+        sortable: true,
+        selector: "title"
+      },
+      {
+        name: "Category",
+        sortable: true,
+        selector: "category"
+      },
+      {
+        name: "Writer",
+        sortable: true,
+        selector: "writer"
+      },
+      {
+        name: "Date",
+        sortable: true,
+        selector: "date"
+      },
+      {
+        name: "Show",
+        sortable: false,
+        cell: Article => (
+          <Link
+            to={`/show/${Article.key}`}
+            class="btn btn-success"
+            style={{
+              border: "none",
+              backgroundColor: "#01afb2",
+              marginTop: "5px"
+            }}
+          >
+            Show
+          </Link>
+        )
+      }
+    ];
+
+   
+
     return (
-      <div style={{ backgroundColor: "#f2f2f2", height: "100%" }}>
+      <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
         <div class="container" style={{ marginBottom: "30px" }}>
           <div className="content">
@@ -61,47 +107,19 @@ class Home extends Component {
                     Add Article
                   </Link>
                 </button>
-
-                <table
-                  id="datatable"
-                  class="table table-striped"
+                <DataTable
                   style={{
                     backgroundColor: "#ffffff",
                     boxShadow: "-2px 0px 40px -17px rgba(0,0,0,0.75)",
                     borderRadius: "5px"
                   }}
-                >
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>category</th>
-                      <th>Writer</th>
-                      <th>Show Article</th>
-                    </tr>
-                  </thead>
-                  <tbody className="home">
-                    {this.state.article.reverse().map(Article => (
-                      <tr>
-                        <td>{Article.title}</td>
-                        <td>{Article.category}</td>
-                        <td>{Article.writer}</td>
-                        <td>
-                          <Link
-                            to={`/show/${Article.key}`}
-                            class="btn btn-success"
-                            style={{
-                              border: "none",
-                              backgroundColor: "#01afb2",
-                              marginTop: "5px"
-                            }}
-                          >
-                            Show
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  title="Articles"
+                  columns={columns}
+                  data={this.state.article.reverse()}
+                  striped={true}
+                  pagination
+                
+                />
               </div>
             </div>
           </div>
