@@ -8,27 +8,30 @@ import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
 
 import "./styles.css";
+import { delay } from "q";
 
 Quill.register("modules/ImageResize", ImageResize);
 Quill.register("modules/ImageDrop", ImageDrop);
-
 
 class Create extends Component {
   constructor() {
     super();
     this.ref = firebase.firestore().collection("article");
+     this.editor = null;
     this.state = {
       title: "",
       description: "",
       category: "",
       writer: "",
       date: "",
+      delta: {}
     };
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-
   componentDidMount() {
-    let options = {
+
+    const options = {
       theme: "snow",
       modules: {
         ImageDrop: true,
@@ -53,9 +56,9 @@ class Create extends Component {
       }
     };
         
-
-    const editor = new Quill("#ql-editor", options);
-    const table = editor.getModule("table");
+    
+    this.editor = new Quill("#ql-editor", options);
+    const table = this.editor.getModule("table");
    
     document
       .querySelector("#insert-row-above")
@@ -91,7 +94,9 @@ class Create extends Component {
         table.deleteTable();
       });
 
-   
+      // window.delta = editor.getContents();
+      // Quill.setContents(window.delta);
+
   }
 
   onChange = e => {
@@ -107,7 +112,7 @@ class Create extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { title, description, category, writer } = this.state;
+    const { title, description, category, writer} = this.state;
 
     let today = new Date();
     let date =
@@ -120,10 +125,14 @@ class Create extends Component {
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     let dateTime = date + "T" + time + "Z";
 
+
+
+    const delta = JSON.stringify(this.editor.getContents());
+
     this.ref
       .add({
         title,
-        description: document.getElementById("ql-editor").innerHTML,
+        description: delta,
         category,
         writer,
         date: dateTime
@@ -135,8 +144,10 @@ class Create extends Component {
           category: "",
           writer: "",
           date: ""
-        });
-        this.props.history.push("/");
+        }, () => {
+		 this.props.history.push("/");
+		});
+       
       })
       .catch(error => {
         console.error("Error adding document: ", error);

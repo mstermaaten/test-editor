@@ -16,6 +16,7 @@ Quill.register("modules/ImageDrop", ImageDrop);
 class Edit extends Component {
   constructor(props) {
     super(props);
+    this.editor = null;
     this.state = {
       key: "",
       title: "",
@@ -67,10 +68,13 @@ class Edit extends Component {
           writer: Article.writer,
           date: Article.date
         });
+
+         const parsedDescription = JSON.parse(Article.description);
     
-        const editor = new Quill("#ql-editor", options);
-        editor.clipboard.dangerouslyPasteHTML(0, `${Article.description}`);
-        const table = editor.getModule("table");
+
+        this.editor = new Quill("#ql-editor", options);
+        this.editor.setContents(parsedDescription);
+    const table = this.editor.getModule("table");
 
         document
       .querySelector("#insert-table")
@@ -132,7 +136,7 @@ class Edit extends Component {
 
     const { title, description, category, writer } = this.state;
 
-    let today = new Date();
+let today = new Date();
     let date =
       today.getFullYear() +
       "-" +
@@ -143,6 +147,8 @@ class Edit extends Component {
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     let dateTime = date + "T" + time + "Z";
 
+     const delta = JSON.stringify(this.editor.getContents());
+
     const updateRef = firebase
       .firestore()
       .collection("article")
@@ -150,7 +156,7 @@ class Edit extends Component {
     updateRef
       .set({
         title,
-        description: document.querySelector("#ql-editor").firstChild.innerHTML,
+        description: delta,
         category,
         writer,
         date: dateTime
@@ -163,8 +169,9 @@ class Edit extends Component {
           category: "",
           writer: "",
           date: ""
+        }, () => {
+ this.props.history.push("/show/" + this.props.match.params.id);
         });
-        this.props.history.push("/show/" + this.props.match.params.id);
       })
       .catch(error => {
         console.error("Error adding document: ", error);
@@ -173,9 +180,6 @@ class Edit extends Component {
 
 
   render() {
-    console.log(firebase
-      .firestore()
-      .collection("article"));
     return (
       <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />

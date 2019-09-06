@@ -3,12 +3,15 @@ import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Header from "./header";
 import Version from "./version";
+import Quill from "quill2-dev";
 
 import "./styles.css";
+
 
 class Show extends Component {
   constructor(props) {
     super(props);
+    this.editor = null;
     this.state = {
       Article: {},
       key: ""
@@ -21,16 +24,28 @@ class Show extends Component {
       .collection("article")
       .doc(this.props.match.params.id);
     ref.get().then(doc => {
+      const data = doc.data();
       if (doc.exists) {
         this.setState({
-          Article: doc.data(),
+          Article: data,
           key: doc.id,
           isLoading: false
         });
       } else {
         console.log("No such document!");
       }
-    });
+      return data;
+    }).then(data => {
+      
+          let options = {
+          readOnly: true,
+          };
+
+        const parsedDescription = JSON.parse(data.description);
+        this.editor = new Quill("#ql-editor", options);
+        this.editor.setContents(parsedDescription);
+    })
+
   }
 
   delete(id) {
@@ -49,7 +64,7 @@ class Show extends Component {
   }
 
   render() {
-    let descr = this.state.Article.description;
+
     return (
       <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
@@ -71,8 +86,7 @@ class Show extends Component {
                 <dt>Description:</dt>
                 <dd>
                   <div className="ql-snow">
-                    <div className="ql-editor">
-                      <div className="read-only" dangerouslySetInnerHTML={{ __html: descr }}></div>
+                    <div id="ql-editor" className="ql-editor">
                     </div>
                   </div>
                 </dd>
