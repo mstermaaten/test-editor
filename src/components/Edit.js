@@ -234,7 +234,7 @@ let today = new Date();
                     Categories
                   </label>
                 </div>
-                <select
+                 <select
                   name="category"
                   value={this.state.category}
                   onChange={this.onChange}
@@ -242,11 +242,63 @@ let today = new Date();
                   type="text"
                   class="custom-select"
                 >
+                  <optgroup label="STATISTICS"></optgroup>
+                  <optgroup label="One-sample tests">
+                    <option value="One-Parametric-Tests">Parametric Tests</option>
+                    <option value="One-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="Two-sample tests">
+                   <option value="Two-Parametric-Tests">Parametric Tests</option>
+                    <option value="Two-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="Three-sample tests">
+                   <option value="Three-Parametric-Tests">Parametric Tests</option>
+                    <option value="Three-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="Categorical tests">
+                    <option value="Categorical-Parametric-Tests">Parametric Tests</option>
+                    <option value="Categorical-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="MACHINE LEARNING"></optgroup>
                   <option value="Select">Select</option>
                   <option value="Regression">Regression</option>
-                  <option value="Classification">Classification</option>
+                  <option value="Classification">classification</option>
                   <option value="Clustering">Clustering</option>
                   <option value="Generation">Generation</option>
+                  <option value="Dimensionality-Linear">
+                    Dimensionality Reduction (Linear)
+                  </option>
+                  <option value="Dimensionality-Non-Linear">
+                    Dimensionality Reduction (Non-Linear)
+                  </option>
+                  <optgroup label="Evaluation Metrics Selection (Supervides)">
+                    <option value="Evaluation-Binary">
+                      Binary Classification
+                    </option>
+                    <option value="Evaluation-Multiclass">
+                      Multiclass Classification
+                    </option>
+                    <option value="Evaluation-Univariate">
+                      Univariate Regression
+                    </option>
+                    <option value="Evaluation-Multivariate">
+                      Multivariate Regression
+                    </option>
+                  </optgroup>
+                  <optgroup label="Evaluation Metrics Selection (Unsupervised)">
+                    <option value="Evaluation-Cluster">Clustering</option>
+                    <option value="Evaluation-NLP">NLP</option>
+                  </optgroup>
+                  <optgroup label="Handling Overfitting (Models)">
+                    <option value="Overfitting-Regres">Regression</option>
+                    <option value="Overfitting-Tree">Tree-Based Models</option>
+                    <option value="Overfitting-Neural">Neural Networks</option>
+                  </optgroup>
+                  <option value="Overfitting-General">
+                    Handling Overfitting (General)
+                  </option>
+                  <option value="Imbalanced-Under">Undersampling</option>
+                  <option value="Imbalanced-Over">Oversampling</option>
                 </select>
               </div>
               <div class="form-group">

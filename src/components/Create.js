@@ -210,9 +210,27 @@ class Create extends Component {
                   type="text"
                   class="custom-select"
                 >
+                  <optgroup label="STATISTICS"></optgroup>
+                  <optgroup label="One-sample tests">
+                    <option value="One-Parametric-Tests">Parametric Tests</option>
+                    <option value="One-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="Two-sample tests">
+                   <option value="Two-Parametric-Tests">Parametric Tests</option>
+                    <option value="Two-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="Three-sample tests">
+                   <option value="Three-Parametric-Tests">Parametric Tests</option>
+                    <option value="Three-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="Categorical tests">
+                    <option value="Categorical-Parametric-Tests">Parametric Tests</option>
+                    <option value="Categorical-Non-Parametric-Tests">Non-Parametric Tests</option>
+                  </optgroup>
+                  <optgroup label="MACHINE LEARNING"></optgroup>
                   <option value="Select">Select</option>
                   <option value="Regression">Regression</option>
-                  <option value="classification">classification</option>
+                  <option value="Classification">classification</option>
                   <option value="Clustering">Clustering</option>
                   <option value="Generation">Generation</option>
                   <option value="Dimensionality-Linear">
