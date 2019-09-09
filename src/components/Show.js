@@ -86,7 +86,10 @@ class Show extends Component {
                 <dt>Description:</dt>
                 <dd>
                   <div className="ql-snow">
-                    <div id="ql-editor" className="ql-editor">
+                    <div className="ql-editor">
+                      <div id="ql-editor" className="read-only">
+
+                      </div>
                     </div>
                   </div>
                 </dd>

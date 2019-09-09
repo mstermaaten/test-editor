@@ -51,6 +51,7 @@
     "primeicons": "^2.0.0",
     "primereact": "^3.1.9",
     "quill-better-table": "^1.1.13",
+    "quill-emoji": "^0.1.7",
     "quill-image-drop-module": "^1.0.3",
     "quill-image-resize-module": "^3.0.0",
     "quill2-dev": "^2.0.0-dev.5",

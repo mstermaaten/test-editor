@@ -13,7 +13,7 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <div>
+        <div style={{backgroundColor: "#f2f2f2"}}>
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute path="/edit/:id" component={Edit} />
           <PrivateRoute path="/create" component={Create} />

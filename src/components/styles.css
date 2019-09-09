@@ -928,6 +928,12 @@
   padding: 8px;
   display: flex;
   justify-content: center;
+  position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    background-color: #F2F2F2;
+
 }
 .ql-toolbar.ql-snow .ql-formats {
   margin-right: 15px;

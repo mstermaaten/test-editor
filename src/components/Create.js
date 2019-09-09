@@ -7,8 +7,8 @@ import Quill from "quill2-dev";
 import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
 
+
 import "./styles.css";
-import { delay } from "q";
 
 Quill.register("modules/ImageResize", ImageResize);
 Quill.register("modules/ImageDrop", ImageDrop);
@@ -37,9 +37,10 @@ class Create extends Component {
         ImageDrop: true,
         ImageResize: {},
         table: true,
-        toolbar: [
+        toolbar: { 
+        container: [
           ["formula", "table"],
-          [{ size: [] }, { header: [1, 2, 3, 5] }],
+          [{ size: [] }, { header: [1, 2, 3, 4, 5, 6, false] }],
           [{ align: ["", "center", "right", "justify"] }],
           ["code", "code-block"],
           ["bold", "italic", "underline", "strike"],
@@ -48,13 +49,16 @@ class Create extends Component {
             { list: "ordered" },
             { list: "bullet" },
             { indent: "-1" },
-            { indent: "+1" }
+            { indent: "+1" },
+            { script: 'sub' }, 
+            { script: 'super' }
           ],
           ["link", "image", "video"],
           ["clean"]
         ]
       }
-    };
+    }
+    }
         
     
     this.editor = new Quill("#ql-editor", options);
@@ -112,7 +116,7 @@ class Create extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { title, description, category, writer} = this.state;
+    const { title, category, writer} = this.state;
 
     let today = new Date();
     let date =

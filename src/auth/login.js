@@ -30,9 +30,9 @@ const Login = ({ history }) => {
   }
 
   return (
-    <div className="container">
-      <div className="img-wrap">
-        <img style={{ width: "80%" }} src={logo} alt="The Learning Machine" />
+    <div className="login-container">
+      <div className="login-img-wrap">
+        <img className="logo" style={{ width: "80%" }} src={logo} alt="The Learning Machine" />
       </div>
       <div className="form">
         <h2>Log In</h2>
@@ -62,19 +62,20 @@ const Login = ({ history }) => {
         </form>
       </div>
       <style jsx>{`
-        .container {
+        .login-container {
           width: 50%;
           display: block;
           margin: auto;
+          background-color: #f2f2f2;
         }
 
         .form {
           padding: 20px;
-          background-color: #f2f2f2;
+          background-color: #d9d9d9;
           border-radius: 0px 0px 10px 10px;
         }
 
-        .img-wrap {
+        .login-img-wrap {
           width: 100%;
           background-color: #262626;
           border-radius: 10px 10px 0px 0px;
@@ -82,7 +83,7 @@ const Login = ({ history }) => {
           padding: 10px 0px;
         }
 
-        img {
+        img.logo {
           display: block;
           margin: auto;
         }
