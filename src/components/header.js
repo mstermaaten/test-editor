@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
             marginBottom: "20px"
           }}
         >
-          <div class="container">
+          <div className="container">
             <div className="menu">
             <Link to="/">
             <img

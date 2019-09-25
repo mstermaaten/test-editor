@@ -74,7 +74,7 @@ class Home extends Component {
         cell: Article => (
           <Link
             to={`/show/${Article.key}`}
-            class="btn btn-success"
+            className="btn btn-success"
             style={{
               border: "none",
               backgroundColor: "#01afb2",
@@ -92,15 +92,15 @@ class Home extends Component {
     return (
       <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
-        <div class="container" style={{ marginBottom: "30px" }}>
+        <div className="container" style={{ marginBottom: "30px" }}>
           <div className="content">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Article LIST</h3>
+            <div className="panel panel-default">
+              <div className="panel-heading">
+                <h3 className="panel-title">Article LIST</h3>
               </div>
-              <div class="panel-body">
+              <div className="panel-body">
                 <button
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   style={{ backgroundColor: "#6773DE", margin: "10px 0px" }}
                 >
                   <Link to="/create" style={{ color: "white" }}>

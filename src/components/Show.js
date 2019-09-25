@@ -6,12 +6,19 @@ import Version from "./version";
 import CKEditor from '@ckeditor/ckeditor5-react';
 // NOTE: Use the editor from source (not a build)!
 import BalloonEditor from '@ckeditor/ckeditor5-editor-balloon/src/ballooneditor';
+
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import UploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
 import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+
+import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript';
+import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
+import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
+import Font from '@ckeditor/ckeditor5-font/src/font';
+
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
 import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
 import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
@@ -29,6 +36,7 @@ import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import MathType from '@wiris/mathtype-ckeditor5/src/plugin';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';  
+// import Link from '@ckeditor/ckeditor5-link/src/link';
 
 const editorConfiguration = {
     plugins: [ 
@@ -38,6 +46,9 @@ const editorConfiguration = {
       MathType,
 	    Bold,
 	    Italic,
+      Subscript,
+      Superscript,
+      Underline,
 	    BlockQuote,
 	    CKFinder,
 	    EasyImage,
@@ -49,31 +60,48 @@ const editorConfiguration = {
 	    ImageUpload,
 	    List,
 	    MediaEmbed,
+      // Link,
 	    Paragraph,
       Code,
 	    PasteFromOffice,
 	    Table,
 	    TableToolbar,
-      Alignment  
+      Alignment,
+      Font  
     ],
     toolbar: {
 		items: [
 			'heading',
-			'|',
       'alignment',
+      '|',
 			'bold',
 			'italic',
+      'subscript',
+      'superscript',
+      'underline',
+      '|',
+      'fontFamily',
+      'fontSize',
+      'fontColor', 
+      'fontBackgroundColor',
+      '|',
 			'bulletedList',
 			'numberedList',
-			'imageUpload',
+      '|',
 			'blockQuote',
       'code',
 			'insertTable',
+      '|',
+      // 'link',
+      'imageUpload',
 			'mediaEmbed',
-			'undo',
-			'redo',
+      '|',
       'MathType',
-      'ChemType'
+      'ChemType',
+      '|',
+      'undo',
+			'redo',
+
 		]
 	},
 	image: {
@@ -91,6 +119,83 @@ const editorConfiguration = {
 			'mergeTableCells'
 		]
 	},
+  fontSize: {
+            options: [
+                'tiny',
+                'default',
+                'big'
+            ]
+        },
+  fontFamily: {
+            options: [
+                'default',
+    'Arial, Helvetica, sans-serif',
+    'Courier New, Courier, monospace',
+    'Georgia, serif',
+    'Lucida Sans Unicode, Lucida Grande, sans-serif',
+    'Tahoma, Geneva, sans-serif',
+    'Times New Roman, Times, serif',
+    'Trebuchet MS, Helvetica, sans-serif',
+    'Verdana, Geneva, sans-serif'
+            ]
+        },
+  fontColor: {
+            colors: [
+                {
+                    color: 'hsl(0, 0%, 0%)',
+                    label: 'Black'
+                },
+                {
+                    color: 'hsl(0, 0%, 30%)',
+                    label: 'Dim grey'
+                },
+                {
+                    color: 'hsl(0, 0%, 60%)',
+                    label: 'Grey'
+                },
+                {
+                    color: 'hsl(0, 0%, 90%)',
+                    label: 'Light grey'
+                },
+                {
+                    color: 'hsl(0, 0%, 100%)',
+                    label: 'White',
+                    hasBorder: true
+                },
+
+                // ...
+            ]
+        },
+        fontBackgroundColor: {
+            colors: [
+                {
+                    color: 'hsl(0, 75%, 60%)',
+                    label: 'Red'
+                },
+                {
+                    color: 'hsl(30, 75%, 60%)',
+                    label: 'Orange'
+                },
+                {
+                    color: 'hsl(60, 75%, 60%)',
+                    label: 'Yellow'
+                },
+                {
+                    color: 'hsl(90, 75%, 60%)',
+                    label: 'Light green'
+                },
+                {
+                    color: 'hsl(120, 75%, 60%)',
+                    label: 'Green'
+                },
+
+                // ...
+            ]
+        },
+   cloudServices: {
+            tokenUrl: 'https://42543.cke-cs.com/token/dev/ecwTHmyNeFlSiPKUUPbXUXMHJsahiC89GWXwBZUugTj85vH56Dphbxtkl6Ck',
+            uploadUrl: 'https://42543.cke-cs.com/easyimage/upload/'
+        },
     // This value must be kept in sync with the language defined in webpack.config.js.
     language: 'en'
 };
@@ -147,12 +252,12 @@ class Show extends Component {
     return (
       <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
-        <div class="container">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">{this.state.Article.title}</h3>
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">{this.state.Article.title}</h3>
             </div>
-            <div class="panel-body">
+            <div className="panel-body">
               <dl
                 style={{
                   backgroundColor: "#ffffff",
@@ -176,17 +281,17 @@ class Show extends Component {
                 <dt>category:</dt>
                 <dd>{this.state.Article.category}</dd>
               </dl>
-              <Link to={`/edit/${this.state.key}`} class="btn btn-success">
+              <Link to={`/edit/${this.state.key}`} className="btn btn-success">
                 Edit
               </Link>
               &nbsp;
               <button
                 onClick={this.delete.bind(this, this.state.key)}
-                class="btn btn-danger"
+                className="btn btn-danger"
               >
                 Delete
               </button>
-              <button class="btn btn-primary" style={{ marginLeft: "5px" }}>
+              <button className="btn btn-primary" style={{ marginLeft: "5px" }}>
                 <Link to="/" style={{ color: "white" }}>
                   Back
                 </Link>
@@ -217,17 +322,7 @@ class Show extends Component {
             color: #282828;
           }
 
-          .ck p {
-            line-height: 0.5;
-          }
-
-          .ck-editor__editable_inline {
-            min-height: 250px;
-          }
-
-          .ck-media__wrapper {
-            width: 80%;
-          }
+         
         `}</style>
       </div>
     );

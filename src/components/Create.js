@@ -14,6 +14,12 @@ import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+
+import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript';
+import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
+import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
+import Font from '@ckeditor/ckeditor5-font/src/font';
+
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
 import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
 import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
@@ -31,6 +37,7 @@ import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import MathType from '@wiris/mathtype-ckeditor5/src/plugin';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';  
+// import Link from '@ckeditor/ckeditor5-link/src/link';
 
 const editorConfiguration = {
     plugins: [ 
@@ -40,6 +47,9 @@ const editorConfiguration = {
       MathType,
 	    Bold,
 	    Italic,
+      Subscript,
+      Superscript,
+      Underline,
 	    BlockQuote,
 	    CKFinder,
 	    EasyImage,
@@ -51,31 +61,48 @@ const editorConfiguration = {
 	    ImageUpload,
 	    List,
 	    MediaEmbed,
+      // Link,
 	    Paragraph,
       Code,
 	    PasteFromOffice,
 	    Table,
 	    TableToolbar,
-      Alignment  
+      Alignment,
+      Font  
     ],
     toolbar: {
 		items: [
 			'heading',
-			'|',
       'alignment',
+      '|',
 			'bold',
 			'italic',
+      'subscript',
+      'superscript',
+      'underline',
+      '|',
+      'fontFamily',
+      'fontSize',
+      'fontColor', 
+      'fontBackgroundColor',
+      '|',
 			'bulletedList',
 			'numberedList',
-			'imageUpload',
+      '|',
 			'blockQuote',
       'code',
 			'insertTable',
+      '|',
+      // 'link',
+      'imageUpload',
 			'mediaEmbed',
-			'undo',
-			'redo',
+      '|',
       'MathType',
-      'ChemType'
+      'ChemType',
+      '|',
+      'undo',
+			'redo',
+
 		]
 	},
 	image: {
@@ -93,6 +120,83 @@ const editorConfiguration = {
 			'mergeTableCells'
 		]
 	},
+  fontSize: {
+            options: [
+                'tiny',
+                'default',
+                'big'
+            ]
+        },
+  fontFamily: {
+            options: [
+                'default',
+    'Arial, Helvetica, sans-serif',
+    'Courier New, Courier, monospace',
+    'Georgia, serif',
+    'Lucida Sans Unicode, Lucida Grande, sans-serif',
+    'Tahoma, Geneva, sans-serif',
+    'Times New Roman, Times, serif',
+    'Trebuchet MS, Helvetica, sans-serif',
+    'Verdana, Geneva, sans-serif'
+            ]
+        },
+  fontColor: {
+            colors: [
+                {
+                    color: 'hsl(0, 0%, 0%)',
+                    label: 'Black'
+                },
+                {
+                    color: 'hsl(0, 0%, 30%)',
+                    label: 'Dim grey'
+                },
+                {
+                    color: 'hsl(0, 0%, 60%)',
+                    label: 'Grey'
+                },
+                {
+                    color: 'hsl(0, 0%, 90%)',
+                    label: 'Light grey'
+                },
+                {
+                    color: 'hsl(0, 0%, 100%)',
+                    label: 'White',
+                    hasBorder: true
+                },
+
+                // ...
+            ]
+        },
+        fontBackgroundColor: {
+            colors: [
+                {
+                    color: 'hsl(0, 75%, 60%)',
+                    label: 'Red'
+                },
+                {
+                    color: 'hsl(30, 75%, 60%)',
+                    label: 'Orange'
+                },
+                {
+                    color: 'hsl(60, 75%, 60%)',
+                    label: 'Yellow'
+                },
+                {
+                    color: 'hsl(90, 75%, 60%)',
+                    label: 'Light green'
+                },
+                {
+                    color: 'hsl(120, 75%, 60%)',
+                    label: 'Green'
+                },
+
+                // ...
+            ]
+        },
+   cloudServices: {
+            tokenUrl: 'https://42543.cke-cs.com/token/dev/ecwTHmyNeFlSiPKUUPbXUXMHJsahiC89GWXwBZUugTj85vH56Dphbxtkl6Ck',
+            uploadUrl: 'https://42543.cke-cs.com/easyimage/upload/'
+        },
     // This value must be kept in sync with the language defined in webpack.config.js.
     language: 'en'
 };
@@ -169,24 +273,24 @@ class Create extends Component {
     return (
       <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
-        <div class="container">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">ADD Article</h3>
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">ADD Article</h3>
             </div>
-            <div class="panel-body">
-              <div class="form-group">
+            <div className="panel-body">
+              <div className="form-group">
                 <label for="title">Title:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="title"
                   value={title}
                   onChange={this.onChange}
                   placeholder="Title"
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="description">Description:</label>
                 <div className="app">
                  <CKEditor
@@ -211,9 +315,9 @@ class Create extends Component {
                 />
                 </div>
               </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <label className="input-group-text" for="inputGroupSelect01">
                     Categories
                   </label>
                 </div>
@@ -223,7 +327,7 @@ class Create extends Component {
                   onChange={this.onChange}
                   placeholder="category"
                   type="text"
-                  class="custom-select"
+                  className="custom-select"
                 >
                   <optgroup label="STATISTICS"></optgroup>
                   <optgroup label="One-sample tests">
@@ -284,27 +388,27 @@ class Create extends Component {
                   <option value="Imbalanced-Over">Oversampling</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="writer">Writer:</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="writer"
                   value={writer}
                   onChange={this.onChange}
                   placeholder="writer"
                 />
               </div>
-              <div class="back-submit">
+              <div className="back-submit">
                 <h4>
-                  <Link to="/" class="btn btn-primary">
+                  <Link to="/" className="btn btn-primary">
                     Back
                   </Link>
                 </h4>
                 <button
                   onClick={this.onSubmit}
                   type="submit"
-                  class="btn btn-success"
+                  className="btn btn-success"
                 >
                   Submit
                 </button>
@@ -334,18 +438,21 @@ class Create extends Component {
             font-size: 75%;
             color: #282828;
           }
+          .text-tiny {
+    font-size: 0.7em;
+}
 
-          .ck p {
-            line-height: 0.5;
-          }
+.text-small {
+    font-size: 0.85em;
+}
 
-          .ck-editor__editable_inline {
-            min-height: 250px;
-          }
+.text-big {
+    font-size: 1.4em;
+}
 
-          .ck-media__wrapper {
-            width: 80%;
-          }
+.text-huge {
+    font-size: 1.8em;
+}
         `}</style>
       </div>
     );
