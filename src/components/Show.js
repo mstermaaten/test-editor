@@ -3,15 +3,101 @@ import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Header from "./header";
 import Version from "./version";
-import Quill from "quill2-dev";
+import CKEditor from '@ckeditor/ckeditor5-react';
+// NOTE: Use the editor from source (not a build)!
+import BalloonEditor from '@ckeditor/ckeditor5-editor-balloon/src/ballooneditor';
+import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+import UploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
+import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
+import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
+import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
+import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
+import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
+import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
+import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import Image from '@ckeditor/ckeditor5-image/src/image';
+import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
+import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
+import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
+import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
+import List from '@ckeditor/ckeditor5-list/src/list';
+import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
+import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
+import Table from '@ckeditor/ckeditor5-table/src/table';
+import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
+import MathType from '@wiris/mathtype-ckeditor5/src/plugin';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';  
 
-import "./styles.css";
-
+const editorConfiguration = {
+    plugins: [ 
+      Essentials,
+	    UploadAdapter,
+	    Autoformat,
+      MathType,
+	    Bold,
+	    Italic,
+	    BlockQuote,
+	    CKFinder,
+	    EasyImage,
+	    Heading,
+	    Image,
+	    ImageCaption,
+	    ImageStyle,
+	    ImageToolbar,
+	    ImageUpload,
+	    List,
+	    MediaEmbed,
+	    Paragraph,
+      Code,
+	    PasteFromOffice,
+	    Table,
+	    TableToolbar,
+      Alignment  
+    ],
+    toolbar: {
+		items: [
+			'heading',
+			'|',
+      'alignment',
+			'bold',
+			'italic',
+			'bulletedList',
+			'numberedList',
+			'imageUpload',
+			'blockQuote',
+      'code',
+			'insertTable',
+			'mediaEmbed',
+			'undo',
+			'redo',
+      'MathType',
+      'ChemType'
+		]
+	},
+	image: {
+		toolbar: [
+			'imageStyle:full',
+			'imageStyle:side',
+			'|',
+			'imageTextAlternative'
+		]
+	},
+	table: {
+		contentToolbar: [
+			'tableColumn',
+			'tableRow',
+			'mergeTableCells'
+		]
+	},
+    // This value must be kept in sync with the language defined in webpack.config.js.
+    language: 'en'
+};
 
 class Show extends Component {
   constructor(props) {
     super(props);
-    this.editor = null;
     this.state = {
       Article: {},
       key: ""
@@ -34,16 +120,9 @@ class Show extends Component {
       } else {
         console.log("No such document!");
       }
-      return data;
-    }).then(data => {
-      
-          let options = {
-          readOnly: true,
-          };
-
-        const parsedDescription = JSON.parse(data.description);
-        this.editor = new Quill("#ql-editor", options);
-        this.editor.setContents(parsedDescription);
+     
+    }).catch(error => {
+      console.log(error);
     })
 
   }
@@ -64,7 +143,7 @@ class Show extends Component {
   }
 
   render() {
-
+    const content = this.state.Article.description;
     return (
       <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
         <Header />
@@ -85,13 +164,14 @@ class Show extends Component {
               >
                 <dt>Description:</dt>
                 <dd>
-                  <div className="ql-snow">
-                    <div className="ql-editor">
-                      <div id="ql-editor" className="read-only">
-
-                      </div>
-                    </div>
-                  </div>
+                 <div className="app">
+                 <CKEditor
+                    editor={ BalloonEditor }
+                    data={content}
+                   disabled={true}
+                   config={ editorConfiguration }
+                />
+                </div>
                 </dd>
                 <dt>category:</dt>
                 <dd>{this.state.Article.category}</dd>
@@ -115,6 +195,40 @@ class Show extends Component {
           </div>
           <Version />
         </div>
+         <style jsx>{`
+          .back-submit {
+            display: flex;
+            justify-content: flex-start;
+            align-items: baseline;
+            margin-top: 10px;
+          }
+
+          .back-submit button {
+            margin-left: 10px;
+          }
+
+          .table {
+            width: 0;
+          }
+
+          code {
+            padding: .25em;
+            font-size: 75%;
+            color: #282828;
+          }
+
+          .ck p {
+            line-height: 0.5;
+          }
+
+          .ck-editor__editable_inline {
+            min-height: 250px;
+          }
+
+          .ck-media__wrapper {
+            width: 80%;
+          }
+        `}</style>
       </div>
     );
   }

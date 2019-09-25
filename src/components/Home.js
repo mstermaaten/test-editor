@@ -41,7 +41,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref
-      .orderBy("date", "asc")
+      .orderBy("title", "asc")
       .onSnapshot(this.onCollectionUpdate);
   }
 

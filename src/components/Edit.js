@@ -3,20 +3,103 @@ import firebase from "../Firebase";
 import { Link } from "react-router-dom";
 import Header from "./header";
 import Version from "./version";
-import Quill from "quill2-dev";
-import "./styles.css";
-import "../katex.css";
+import CKEditor from '@ckeditor/ckeditor5-react';
 
-import { ImageDrop } from "quill-image-drop-module";
-import ImageResize from "quill-image-resize-module";
+// NOTE: Use the editor from source (not a build)!
+import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 
-Quill.register("modules/ImageResize", ImageResize);
-Quill.register("modules/ImageDrop", ImageDrop);
+import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+import UploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
+import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
+import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
+import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
+import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
+import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
+import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
+import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import Image from '@ckeditor/ckeditor5-image/src/image';
+import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
+import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
+import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
+import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
+import List from '@ckeditor/ckeditor5-list/src/list';
+import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
+import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
+import Table from '@ckeditor/ckeditor5-table/src/table';
+import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
+import MathType from '@wiris/mathtype-ckeditor5/src/plugin';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';  
+
+const editorConfiguration = {
+    plugins: [ 
+      Essentials,
+	    UploadAdapter,
+	    Autoformat,
+      MathType,
+	    Bold,
+	    Italic,
+	    BlockQuote,
+	    CKFinder,
+	    EasyImage,
+	    Heading,
+	    Image,
+	    ImageCaption,
+	    ImageStyle,
+	    ImageToolbar,
+	    ImageUpload,
+	    List,
+	    MediaEmbed,
+	    Paragraph,
+      Code,
+	    PasteFromOffice,
+	    Table,
+	    TableToolbar,
+      Alignment  
+    ],
+    toolbar: {
+		items: [
+			'heading',
+			'|',
+      'alignment',
+			'bold',
+			'italic',
+			'bulletedList',
+			'numberedList',
+			'imageUpload',
+			'blockQuote',
+      'code',
+			'insertTable',
+			'mediaEmbed',
+			'undo',
+			'redo',
+      'MathType',
+      'ChemType'
+		]
+	},
+	image: {
+		toolbar: [
+			'imageStyle:full',
+			'imageStyle:side',
+			'|',
+			'imageTextAlternative'
+		]
+	},
+	table: {
+		contentToolbar: [
+			'tableColumn',
+			'tableRow',
+			'mergeTableCells'
+		]
+	},
+    // This value must be kept in sync with the language defined in webpack.config.js.
+    language: 'en'
+};
 
 class Edit extends Component {
   constructor(props) {
     super(props);
-    this.editor = null;
     this.state = {
       key: "",
       title: "",
@@ -35,31 +118,6 @@ class Edit extends Component {
       if (doc.exists) {
         const Article = doc.data();
 
-        let options = {
-          theme: "snow",
-          modules: {
-            ImageDrop: true,
-            ImageResize: {},
-            table: true,
-            toolbar: [
-              ["formula", "table"],
-              [{ size: [] }, { header: [1, 2, 3, 5] }],
-              [{ align: ["", "center", "right", "justify"] }],
-              ["code", "code-block"],
-              ["bold", "italic", "underline", "strike"],
-              [{ color: [] }, { background: [] }],
-              [
-                { list: "ordered" },
-                { list: "bullet" },
-                { indent: "-1" },
-                { indent: "+1" }
-              ],
-              ["link", "image", "video"],
-              ["clean"]
-            ]
-          }
-        };
-
         this.setState({
           key: doc.id,
           title: Article.title,
@@ -68,59 +126,8 @@ class Edit extends Component {
           writer: Article.writer,
           date: Article.date
         });
-
-         const parsedDescription = JSON.parse(Article.description);
-    
-
-        this.editor = new Quill("#ql-editor", options);
-        this.editor.setContents(parsedDescription);
-    const table = this.editor.getModule("table");
-
-        document
-      .querySelector("#insert-table")
-      .addEventListener("click", function() {
-        table.insertTable(2, 2);
-      });
-    document
-      .querySelector("#insert-row-above")
-      .addEventListener("click", function() {
-        table.insertRowAbove();
-      });
-    document
-      .querySelector("#insert-row-below")
-      .addEventListener("click", function() {
-        table.insertRowBelow();
-      });
-    document
-      .querySelector("#insert-column-left")
-      .addEventListener("click", function() {
-        table.insertColumnLeft();
-      });
-    document
-      .querySelector("#insert-column-right")
-      .addEventListener("click", function() {
-        table.insertColumnRight();
-      });
-    document.querySelector("#delete-row").addEventListener("click", function() {
-      table.deleteRow();
-    });
-    document
-      .querySelector("#delete-column")
-      .addEventListener("click", function() {
-        table.deleteColumn();
-      });
-    document
-      .querySelector("#delete-table")
-      .addEventListener("click", function() {
-        table.deleteTable();
-      });
-    
-      } else {
-        console.log("No such document!");
       }
-    });
-
-
+    })
   }
 
   onChange = e => {
@@ -147,7 +154,6 @@ let today = new Date();
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     let dateTime = date + "T" + time + "Z";
 
-     const delta = JSON.stringify(this.editor.getContents());
 
     const updateRef = firebase
       .firestore()
@@ -156,7 +162,7 @@ let today = new Date();
     updateRef
       .set({
         title,
-        description: delta,
+        description,
         category,
         writer,
         date: dateTime
@@ -208,24 +214,27 @@ let today = new Date();
               </div>
               <div class="form-group">
                 <label for="description">Description:</label>
-                <div className="app">
-                  <div
-                    className="ql-editor ql-snow"
-                    id="ql-editor"
-                    style={{ backgroundColor: "#ffffff" }}
-                    value={this.state.description}
-                    onChange={this.setEditorState}
-                  ></div>
-                  <div className="button-container">
-                  <button id="insert-table">add Table</button>
-                  <button id="insert-row-above">add Row</button>
-                  <button id="insert-row-below">add Row Below</button>
-                  <button id="insert-column-left">add Column Left</button>
-                  <button id="insert-column-right">add Column Right</button>
-                  <button id="delete-row">Delete Row</button>
-                  <button id="delete-column">Delete Column</button>
-                  <button id="delete-table">Delete Table</button>
-                  </div>
+                 <div className="app">
+                  <CKEditor
+                    editor={ ClassicEditor }
+                    config={ editorConfiguration }
+                    data={this.state.description}
+                    onInit={ editor => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log( 'Editor is ready to use!', editor );
+                    } }
+                    onChange={ ( event, editor ) => {
+                        const data = editor.getData();
+                        this.setState({description: data});
+                        console.log( { event, editor, data } );
+                    } }
+                    onBlur={ ( event, editor ) => {
+                        console.log( 'Blur.', editor );
+                    } }
+                    onFocus={ ( event, editor ) => {
+                        console.log( 'Focus.', editor );
+                    } }
+                />
                 </div>
               </div>
               <div class="input-group mb-3">
@@ -323,6 +332,40 @@ let today = new Date();
           </div>
           <Version />
         </div>
+         <style jsx>{`
+          .back-submit {
+            display: flex;
+            justify-content: flex-start;
+            align-items: baseline;
+            margin-top: 10px;
+          }
+
+          .back-submit button {
+            margin-left: 10px;
+          }
+
+          .table {
+            width: 0;
+          }
+
+          code {
+            padding: .25em;
+            font-size: 75%;
+            color: #282828;
+          }
+
+          .ck p {
+            line-height: 0.5;
+          }
+
+          .ck-editor__editable_inline {
+            min-height: 250px;
+          }
+
+          .ck-media__wrapper {
+            width: 80%;
+          }
+        `}</style>
       </div>
     );
   }
