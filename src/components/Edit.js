@@ -254,9 +254,9 @@ let today = new Date();
       (today.getMonth() + 1) +
       "-" +
       today.getDate();
-    let time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    let dateTime = date + "T" + time + "Z";
+     let time =
+      today.getHours() + ":" + today.getMinutes()
+    let dateTime = date + " " + time;
 
 
     const updateRef = firebase

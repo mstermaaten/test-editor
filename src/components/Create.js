@@ -239,8 +239,8 @@ class Create extends Component {
       "-" +
       today.getDate();
     let time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    let dateTime = date + "T" + time + "Z";
+      today.getHours() + ":" + today.getMinutes()
+    let dateTime = date + " " + time;
 
 
     this.ref
