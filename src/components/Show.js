@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../Firebase";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import Header from "./header";
 import Version from "./version";
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -36,7 +36,7 @@ import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import MathType from '@wiris/mathtype-ckeditor5/src/plugin';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';  
-// import Link from '@ckeditor/ckeditor5-link/src/link';
+import Link from '@ckeditor/ckeditor5-link/src/link';
 
 const editorConfiguration = {
     plugins: [ 
@@ -60,7 +60,7 @@ const editorConfiguration = {
 	    ImageUpload,
 	    List,
 	    MediaEmbed,
-      // Link,
+      Link,
 	    Paragraph,
       Code,
 	    PasteFromOffice,
@@ -92,7 +92,7 @@ const editorConfiguration = {
       'code',
 			'insertTable',
       '|',
-      // 'link',
+      'link',
       'imageUpload',
 			'mediaEmbed',
       '|',
@@ -192,10 +192,10 @@ const editorConfiguration = {
                 // ...
             ]
         },
-   cloudServices: {
-            tokenUrl: 'https://42543.cke-cs.com/token/dev/ecwTHmyNeFlSiPKUUPbXUXMHJsahiC89GWXwBZUugTj85vH56Dphbxtkl6Ck',
-            uploadUrl: 'https://42543.cke-cs.com/easyimage/upload/'
-        },
+  //  cloudServices: {
+  //           tokenUrl: 'https://tlm-database.firebaseio.com/users/ada/name.json?auth=edvxC26gDoXRBV2vmTNRyTN912p2',
+  //           uploadUrl: 'https://42543.cke-cs.com/easyimage/upload/'
+  //       },
     // This value must be kept in sync with the language defined in webpack.config.js.
     language: 'en'
 };
@@ -281,9 +281,9 @@ class Show extends Component {
                 <dt>category:</dt>
                 <dd>{this.state.Article.category}</dd>
               </dl>
-              <Link to={`/edit/${this.state.key}`} className="btn btn-success">
+              <RouterLink to={`/edit/${this.state.key}`} className="btn btn-success">
                 Edit
-              </Link>
+              </RouterLink>
               &nbsp;
               <button
                 onClick={this.delete.bind(this, this.state.key)}
@@ -292,15 +292,18 @@ class Show extends Component {
                 Delete
               </button>
               <button className="btn btn-primary" style={{ marginLeft: "5px" }}>
-                <Link to="/" style={{ color: "white" }}>
+                <RouterLink to="/" style={{ color: "white" }}>
                   Back
-                </Link>
+                </RouterLink>
               </button>
             </div>
           </div>
           <Version />
         </div>
          <style jsx>{`
+         .ck-editor__editable_inline {
+          min-height: 400px;
+        }
           .back-submit {
             display: flex;
             justify-content: flex-start;
