@@ -324,8 +324,6 @@ class Show extends Component {
             font-size: 75%;
             color: #282828;
           }
-
-         
         `}</style>
       </div>
     );
