@@ -1,3 +1,11 @@
 tbody.home tr:nth-child(odd) {
-  background:#f4f4f4;
+  background: #f4f4f4;
+}
+
+.ck-content .image {
+  max-width: 80%;
+}
+
+p {
+  margin: 0;
 }
