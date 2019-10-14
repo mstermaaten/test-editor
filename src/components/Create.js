@@ -44,6 +44,7 @@ import Link from "@ckeditor/ckeditor5-link/src/link";
 import SimpleUploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
 
 const editorConfiguration = {
+  BR_FILLER: false,
   plugins: [
     Essentials,
     SimpleUploadAdapter,
@@ -274,6 +275,7 @@ class Create extends Component {
       });
   };
 
+
   render() {
     const { title, description, writer } = this.state;
     return (
@@ -300,6 +302,7 @@ class Create extends Component {
                 <label for="description">Description:</label>
                 <div className="app">
                   <CKEditor
+                  BR_FILLER={false}
                     editor={ClassicEditor}
                     config={editorConfiguration}
                     onInit={editor => {
@@ -477,6 +480,11 @@ class Create extends Component {
           .text-huge {
             font-size: 1.8em;
           }
+
+          .ck.ck-editor__editable_inline {
+            padding: 10px 30px;
+          }
+          
         `}</style>
       </div>
     );

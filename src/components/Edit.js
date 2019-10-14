@@ -8,197 +8,205 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 // NOTE: Use the editor from source (not a build)!
 import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import UploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
-import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
+import UploadAdapter from "@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter";
+import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat";
+import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
+import Code from "@ckeditor/ckeditor5-basic-styles/src/code";
+import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
+import HorizontalRule from "@ckeditor/ckeditor5-horizontal-rule/src/horizontalrule";
+import Subscript from "@ckeditor/ckeditor5-basic-styles/src/subscript";
+import Superscript from "@ckeditor/ckeditor5-basic-styles/src/superscript";
+import Underline from "@ckeditor/ckeditor5-basic-styles/src/underline";
+import Font from "@ckeditor/ckeditor5-font/src/font";
 
-import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript';
-import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
-import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
-import Font from '@ckeditor/ckeditor5-font/src/font';
+import BlockQuote from "@ckeditor/ckeditor5-block-quote/src/blockquote";
+import CKFinder from "@ckeditor/ckeditor5-ckfinder/src/ckfinder";
+import Heading from "@ckeditor/ckeditor5-heading/src/heading";
+import Base64UploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter";
 
-import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
-import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
-import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
-import Heading from '@ckeditor/ckeditor5-heading/src/heading';
-import Image from '@ckeditor/ckeditor5-image/src/image';
-import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
-import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
-import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
-import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
-import List from '@ckeditor/ckeditor5-list/src/list';
-import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
-import Table from '@ckeditor/ckeditor5-table/src/table';
-import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
-import MathType from '@wiris/mathtype-ckeditor5/src/plugin';
-import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';  
-import Link from '@ckeditor/ckeditor5-link/src/link';
+import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload";
+import Image from "@ckeditor/ckeditor5-image/src/image";
+import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
+
+import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
+import ImageStyle from "@ckeditor/ckeditor5-image/src/imagestyle";
+
+import List from "@ckeditor/ckeditor5-list/src/list";
+import MediaEmbed from "@ckeditor/ckeditor5-media-embed/src/mediaembed";
+import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
+import PasteFromOffice from "@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice";
+import Table from "@ckeditor/ckeditor5-table/src/table";
+import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
+import MathType from "@wiris/mathtype-ckeditor5/src/plugin";
+import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
+import Link from "@ckeditor/ckeditor5-link/src/link";
+import SimpleUploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
 
 const editorConfiguration = {
-    plugins: [ 
-      Essentials,
-	    UploadAdapter,
-	    Autoformat,
-      MathType,
-	    Bold,
-	    Italic,
-      Subscript,
-      Superscript,
-      Underline,
-	    BlockQuote,
-	    CKFinder,
-	    EasyImage,
-	    Heading,
-	    Image,
-	    ImageCaption,
-	    ImageStyle,
-	    ImageToolbar,
-	    ImageUpload,
-	    List,
-	    MediaEmbed,
-      Link,
-	    Paragraph,
-      Code,
-	    PasteFromOffice,
-	    Table,
-	    TableToolbar,
-      Alignment,
-      Font  
+  plugins: [
+    Essentials,
+    SimpleUploadAdapter,
+    Base64UploadAdapter,
+    UploadAdapter,
+    Autoformat,
+    MathType,
+    Bold,
+    Italic,
+    Subscript,
+    Superscript,
+    Underline,
+    BlockQuote,
+    CKFinder,
+    HorizontalRule,
+    Heading,
+    Image,
+    ImageCaption,
+    Font,
+    ImageStyle,
+    ImageToolbar,
+    ImageUpload,
+    List,
+    MediaEmbed,
+    Link,
+    Paragraph,
+    Code,
+    PasteFromOffice,
+    Table,
+    TableToolbar,
+    Alignment
+  ],
+  toolbar: {
+    items: [
+      "heading",
+      "alignment",
+      "|",
+      "bold",
+      "italic",
+      "subscript",
+      "superscript",
+      "underline",
+      "|",
+      "fontFamily",
+      "fontSize",
+      "fontColor",
+      "fontBackgroundColor",
+      "|",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "blockQuote",
+      "code",
+      "insertTable",
+      "horizontalRule",
+      "|",
+      "link",
+      "imageUpload",
+      "mediaEmbed",
+      "|",
+      "MathType",
+      "ChemType",
+      "|",
+      "undo",
+      "redo"
+    ]
+  },
+  image: {
+    resizeUnit: "px",
+    toolbar: [
+      "imageTextAlternative",
+      "|",
+      "imageStyle:full",
+      "imageStyle:alignLeft",
+      "imageStyle:alignCenter",
+      "imageStyle:alignRight"
     ],
-    toolbar: {
-		items: [
-			'heading',
-      'alignment',
-      '|',
-			'bold',
-			'italic',
-      'subscript',
-      'superscript',
-      'underline',
-      '|',
-      'fontFamily',
-      'fontSize',
-      'fontColor', 
-      'fontBackgroundColor',
-      '|',
-			'bulletedList',
-			'numberedList',
-      '|',
-			'blockQuote',
-      'code',
-			'insertTable',
-      '|',
-      'link',
-      'imageUpload',
-			'mediaEmbed',
-      '|',
-      'MathType',
-      'ChemType',
-      '|',
-      'undo',
-			'redo',
 
-		]
-	},
-	image: {
-		toolbar: [
-			'imageStyle:full',
-			'imageStyle:side',
-			'|',
-			'imageTextAlternative'
-		]
-	},
-	table: {
-		contentToolbar: [
-			'tableColumn',
-			'tableRow',
-			'mergeTableCells'
-		]
-	},
+    styles: [
+      // This option is equal to a situation where no style is applied
+      "full",
+      "alignLeft",
+      "alignCenter",
+      // This represents an image aligned to the left.
+
+      // This represents an image aligned to the right.
+      "alignRight"
+    ]
+  },
+  table: {
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"]
+  },
   fontSize: {
-            options: [
-                'tiny',
-                'default',
-                'big'
-            ]
-        },
+    options: ["tiny", "default", "big"]
+  },
   fontFamily: {
-            options: [
-                'default',
-    'Arial, Helvetica, sans-serif',
-    'Courier New, Courier, monospace',
-    'Georgia, serif',
-    'Lucida Sans Unicode, Lucida Grande, sans-serif',
-    'Tahoma, Geneva, sans-serif',
-    'Times New Roman, Times, serif',
-    'Trebuchet MS, Helvetica, sans-serif',
-    'Verdana, Geneva, sans-serif'
-            ]
-        },
+    options: [
+      "default",
+      "Arial, Helvetica, sans-serif",
+      "Courier New, Courier, monospace",
+      "Georgia, serif",
+      "Lucida Sans Unicode, Lucida Grande, sans-serif",
+      "Tahoma, Geneva, sans-serif",
+      "Times New Roman, Times, serif",
+      "Trebuchet MS, Helvetica, sans-serif",
+      "Verdana, Geneva, sans-serif"
+    ]
+  },
   fontColor: {
-            colors: [
-                {
-                    color: 'hsl(0, 0%, 0%)',
-                    label: 'Black'
-                },
-                {
-                    color: 'hsl(0, 0%, 30%)',
-                    label: 'Dim grey'
-                },
-                {
-                    color: 'hsl(0, 0%, 60%)',
-                    label: 'Grey'
-                },
-                {
-                    color: 'hsl(0, 0%, 90%)',
-                    label: 'Light grey'
-                },
-                {
-                    color: 'hsl(0, 0%, 100%)',
-                    label: 'White',
-                    hasBorder: true
-                },
+    colors: [
+      {
+        color: "hsl(0, 0%, 0%)",
+        label: "Black"
+      },
+      {
+        color: "hsl(0, 0%, 30%)",
+        label: "Dim grey"
+      },
+      {
+        color: "hsl(0, 0%, 60%)",
+        label: "Grey"
+      },
+      {
+        color: "hsl(0, 0%, 90%)",
+        label: "Light grey"
+      },
+      {
+        color: "hsl(0, 0%, 100%)",
+        label: "White",
+        hasBorder: true
+      }
 
-                // ...
-            ]
-        },
-        fontBackgroundColor: {
-            colors: [
-                {
-                    color: 'hsl(0, 75%, 60%)',
-                    label: 'Red'
-                },
-                {
-                    color: 'hsl(30, 75%, 60%)',
-                    label: 'Orange'
-                },
-                {
-                    color: 'hsl(60, 75%, 60%)',
-                    label: 'Yellow'
-                },
-                {
-                    color: 'hsl(90, 75%, 60%)',
-                    label: 'Light green'
-                },
-                {
-                    color: 'hsl(120, 75%, 60%)',
-                    label: 'Green'
-                },
+      // ...
+    ]
+  },
+  fontBackgroundColor: {
+    colors: [
+      {
+        color: "hsl(0, 75%, 60%)",
+        label: "Red"
+      },
+      {
+        color: "hsl(30, 75%, 60%)",
+        label: "Orange"
+      },
+      {
+        color: "hsl(60, 75%, 60%)",
+        label: "Yellow"
+      },
+      {
+        color: "hsl(90, 75%, 60%)",
+        label: "Light green"
+      },
+      {
+        color: "hsl(120, 75%, 60%)",
+        label: "Green"
+      }
 
-                // ...
-            ]
-        },
-  //  cloudServices: {
-  //           tokenUrl: 'https://tlm-database.firebaseio.com/users/ada/name.json?auth=edvxC26gDoXRBV2vmTNRyTN912p2',
-  //           uploadUrl: 'https://42543.cke-cs.com/easyimage/upload/'
-  //       },
-    // This value must be kept in sync with the language defined in webpack.config.js.
-    language: 'en'
+      // ...
+    ]
+  },
+  language: "en",
+  placeholder: "Write something cool..."
 };
 
 class Edit extends Component {
@@ -320,6 +328,7 @@ let today = new Date();
                 <label for="description">Description:</label>
                  <div className="app">
                   <CKEditor
+                  BR_FILLER={false}
                     editor={ ClassicEditor }
                     config={ editorConfiguration }
                     data={this.state.description}
@@ -338,6 +347,8 @@ let today = new Date();
                     onFocus={ ( event, editor ) => {
                         console.log( 'Focus.', editor );
                     } }
+
+                    
                 />
                 </div>
               </div>
@@ -459,6 +470,26 @@ let today = new Date();
             padding: .25em;
             font-size: 75%;
             color: #282828;
+          }
+
+          .text-tiny {
+            font-size: 0.7em;
+          }
+
+          .text-small {
+            font-size: 0.85em;
+          }
+
+          .text-big {
+            font-size: 1.4em;
+          }
+
+          .text-huge {
+            font-size: 1.8em;
+          }
+
+ .ck.ck-editor__editable_inline {
+            padding: 10px 30px;
           }
 
         `}</style>
