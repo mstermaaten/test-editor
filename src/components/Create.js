@@ -42,9 +42,10 @@ import MathType from "@wiris/mathtype-ckeditor5/src/plugin";
 import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
 import Link from "@ckeditor/ckeditor5-link/src/link";
 import SimpleUploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
+import Indent from "@ckeditor/ckeditor5-indent/src/indent";
+import IndentBlock from "@ckeditor/ckeditor5-indent/src/indentblock";
 
 const editorConfiguration = {
-  BR_FILLER: false,
   plugins: [
     Essentials,
     SimpleUploadAdapter,
@@ -65,6 +66,8 @@ const editorConfiguration = {
     ImageCaption,
     Font,
     ImageStyle,
+    Indent,
+    IndentBlock,
     ImageToolbar,
     ImageUpload,
     List,
@@ -93,6 +96,8 @@ const editorConfiguration = {
       "fontColor",
       "fontBackgroundColor",
       "|",
+      "indent",
+      "outdent",
       "bulletedList",
       "numberedList",
       "|",
@@ -206,6 +211,10 @@ const editorConfiguration = {
       // ...
     ]
   },
+  indentBlock: {
+    offset: 1,
+    unit: "em"
+  },
   language: "en",
   placeholder: "Write something cool..."
 };
@@ -275,7 +284,6 @@ class Create extends Component {
       });
   };
 
-
   render() {
     const { title, description, writer } = this.state;
     return (
@@ -302,7 +310,6 @@ class Create extends Component {
                 <label for="description">Description:</label>
                 <div className="app">
                   <CKEditor
-                  BR_FILLER={false}
                     editor={ClassicEditor}
                     config={editorConfiguration}
                     onInit={editor => {
@@ -310,6 +317,8 @@ class Create extends Component {
                       console.log("Editor is ready to use!", editor);
                     }}
                     onChange={(event, editor) => {
+                      editor.fillEmptyBlocks = false;
+                      editor.ignoreEmptyParagraph = true;
                       const data = editor.getData();
                       this.setState({ description: data });
                       console.log({ event, editor, data });
@@ -484,7 +493,6 @@ class Create extends Component {
           .ck.ck-editor__editable_inline {
             padding: 10px 30px;
           }
-          
         `}</style>
       </div>
     );

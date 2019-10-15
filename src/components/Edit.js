@@ -3,10 +3,10 @@ import firebase from "../Firebase";
 import { Link as RouterLink } from "react-router-dom";
 import Version from "./version";
 import Header from "./header";
-import CKEditor from '@ckeditor/ckeditor5-react';
+import CKEditor from "@ckeditor/ckeditor5-react";
 
 // NOTE: Use the editor from source (not a build)!
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import UploadAdapter from "@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter";
@@ -42,6 +42,8 @@ import MathType from "@wiris/mathtype-ckeditor5/src/plugin";
 import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
 import Link from "@ckeditor/ckeditor5-link/src/link";
 import SimpleUploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
+import Indent from "@ckeditor/ckeditor5-indent/src/indent";
+import IndentBlock from "@ckeditor/ckeditor5-indent/src/indentblock";
 
 const editorConfiguration = {
   plugins: [
@@ -63,6 +65,8 @@ const editorConfiguration = {
     Image,
     ImageCaption,
     Font,
+    Indent,
+    IndentBlock,
     ImageStyle,
     ImageToolbar,
     ImageUpload,
@@ -92,6 +96,8 @@ const editorConfiguration = {
       "fontColor",
       "fontBackgroundColor",
       "|",
+      "indent",
+      "outdent",
       "bulletedList",
       "numberedList",
       "|",
@@ -205,8 +211,14 @@ const editorConfiguration = {
       // ...
     ]
   },
+  indentBlock: {
+    offset: 1,
+    unit: "em"
+  },
   language: "en",
-  placeholder: "Write something cool..."
+  placeholder: "Write something cool...",
+  fillEmptyBlocks: false,
+  ignoreEmptyParagraph: false
 };
 
 class Edit extends Component {
@@ -239,7 +251,7 @@ class Edit extends Component {
           date: Article.date
         });
       }
-    })
+    });
   }
 
   onChange = e => {
@@ -255,17 +267,15 @@ class Edit extends Component {
 
     const { title, description, category, writer } = this.state;
 
-let today = new Date();
+    let today = new Date();
     let date =
       today.getFullYear() +
       "-" +
       (today.getMonth() + 1) +
       "-" +
       today.getDate();
-     let time =
-      today.getHours() + ":" + today.getMinutes()
+    let time = today.getHours() + ":" + today.getMinutes();
     let dateTime = date + " " + time;
-
 
     const updateRef = firebase
       .firestore()
@@ -280,22 +290,24 @@ let today = new Date();
         date: dateTime
       })
       .then(docRef => {
-        this.setState({
-          key: "",
-          title: "",
-          description: "",
-          category: "",
-          writer: "",
-          date: ""
-        }, () => {
- this.props.history.push("/show/" + this.props.match.params.id);
-        });
+        this.setState(
+          {
+            key: "",
+            title: "",
+            description: "",
+            category: "",
+            writer: "",
+            date: ""
+          },
+          () => {
+            this.props.history.push("/show/" + this.props.match.params.id);
+          }
+        );
       })
       .catch(error => {
         console.error("Error adding document: ", error);
       });
   };
-
 
   render() {
     return (
@@ -308,7 +320,10 @@ let today = new Date();
             </div>
             <div className="panel-body">
               <h4>
-                <RouterLink to={`/show/${this.state.key}`} className="btn btn-primary">
+                <RouterLink
+                  to={`/show/${this.state.key}`}
+                  className="btn btn-primary"
+                >
                   Back
                 </RouterLink>
               </h4>
@@ -326,30 +341,27 @@ let today = new Date();
               </div>
               <div className="form-group">
                 <label for="description">Description:</label>
-                 <div className="app">
+                <div className="app">
                   <CKEditor
-                  BR_FILLER={false}
-                    editor={ ClassicEditor }
-                    config={ editorConfiguration }
+                    editor={ClassicEditor}
+                    config={editorConfiguration}
                     data={this.state.description}
-                    onInit={ editor => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editor );
-                    } }
-                    onChange={ ( event, editor ) => {
-                        const data = editor.getData();
-                        this.setState({description: data});
-                        console.log( { event, editor, data } );
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        console.log( 'Blur.', editor );
-                    } }
-                    onFocus={ ( event, editor ) => {
-                        console.log( 'Focus.', editor );
-                    } }
-
-                    
-                />
+                    onInit={editor => {
+                      // You can store the "editor" and use when it is needed.
+                      console.log("Editor is ready to use!", editor);
+                    }}
+                    onChange={(event, editor) => {
+                      const data = editor.getData();
+                      this.setState({ description: data });
+                      console.log({ event, editor, data });
+                    }}
+                    onBlur={(event, editor) => {
+                      console.log("Blur.", editor);
+                    }}
+                    onFocus={(event, editor) => {
+                      console.log("Focus.", editor);
+                    }}
+                  />
                 </div>
               </div>
               <div className="input-group mb-3">
@@ -358,7 +370,7 @@ let today = new Date();
                     Categories
                   </label>
                 </div>
-                 <select
+                <select
                   name="category"
                   value={this.state.category}
                   onChange={this.onChange}
@@ -368,20 +380,36 @@ let today = new Date();
                 >
                   <optgroup label="STATISTICS"></optgroup>
                   <optgroup label="One-sample tests">
-                    <option value="One-Parametric-Tests">Parametric Tests</option>
-                    <option value="One-Non-Parametric-Tests">Non-Parametric Tests</option>
+                    <option value="One-Parametric-Tests">
+                      Parametric Tests
+                    </option>
+                    <option value="One-Non-Parametric-Tests">
+                      Non-Parametric Tests
+                    </option>
                   </optgroup>
                   <optgroup label="Two-sample tests">
-                   <option value="Two-Parametric-Tests">Parametric Tests</option>
-                    <option value="Two-Non-Parametric-Tests">Non-Parametric Tests</option>
+                    <option value="Two-Parametric-Tests">
+                      Parametric Tests
+                    </option>
+                    <option value="Two-Non-Parametric-Tests">
+                      Non-Parametric Tests
+                    </option>
                   </optgroup>
                   <optgroup label="Three-sample tests">
-                   <option value="Three-Parametric-Tests">Parametric Tests</option>
-                    <option value="Three-Non-Parametric-Tests">Non-Parametric Tests</option>
+                    <option value="Three-Parametric-Tests">
+                      Parametric Tests
+                    </option>
+                    <option value="Three-Non-Parametric-Tests">
+                      Non-Parametric Tests
+                    </option>
                   </optgroup>
                   <optgroup label="Categorical tests">
-                    <option value="Categorical-Parametric-Tests">Parametric Tests</option>
-                    <option value="Categorical-Non-Parametric-Tests">Non-Parametric Tests</option>
+                    <option value="Categorical-Parametric-Tests">
+                      Parametric Tests
+                    </option>
+                    <option value="Categorical-Non-Parametric-Tests">
+                      Non-Parametric Tests
+                    </option>
                   </optgroup>
                   <optgroup label="MACHINE LEARNING"></optgroup>
                   <option value="Select">Select</option>
@@ -447,10 +475,15 @@ let today = new Date();
           </div>
           <Version />
         </div>
-         <style jsx>{`
-         .ck-editor__editable_inline {
-          min-height: 400px;
-        }
+        <style jsx>{`
+          .ck-editor__editable_inline {
+            min-height: 400px;
+          }
+
+          .ck-placeholder [data-cke-filler] {
+            display: none;
+          }
+
           .back-submit {
             display: flex;
             justify-content: flex-start;
@@ -467,7 +500,7 @@ let today = new Date();
           }
 
           code {
-            padding: .25em;
+            padding: 0.25em;
             font-size: 75%;
             color: #282828;
           }
@@ -488,10 +521,9 @@ let today = new Date();
             font-size: 1.8em;
           }
 
- .ck.ck-editor__editable_inline {
+          .ck.ck-editor__editable_inline {
             padding: 10px 30px;
           }
-
         `}</style>
       </div>
     );
