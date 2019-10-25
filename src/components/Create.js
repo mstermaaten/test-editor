@@ -165,7 +165,7 @@ const editorConfiguration = {
         label: "Black"
       },
       {
-        color: "hsl(0, 0%, 30%)",
+        color: "hsl(0, 0%, 34%)",
         label: "Dim grey"
       },
       {
@@ -177,9 +177,20 @@ const editorConfiguration = {
         label: "Light grey"
       },
       {
-        color: "hsl(0, 0%, 100%)",
-        label: "White",
-        hasBorder: true
+        color: "hsl(234, 48%, 58%)",
+        label: "TLM-Blue"
+      },
+      {
+        color: "hsl(358, 78%, 50%)",
+        label: "Red"
+      },
+      {
+        color: "hsl(286, 58%, 34%)",
+        label: "Purple"
+      },
+      {
+        color: "hsl(234, 48%, 58%)",
+        label: "Purple"
       }
 
       // ...
