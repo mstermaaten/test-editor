@@ -2,9 +2,6 @@ import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
 import firebase from "../Firebase";
 import { AuthContext } from "./auth";
-import { async } from "q";
-import { app } from "firebase";
-import logo from "../static/TLM-purple.png";
 
 const Login = ({ history }) => {
   const handleLogin = useCallback(
@@ -31,9 +28,6 @@ const Login = ({ history }) => {
 
   return (
     <div className="login-container">
-      <div className="login-img-wrap">
-        <img className="logo" style={{ width: "80%" }} src={logo} alt="The Learning Machine" />
-      </div>
       <div className="form">
         <h2>Log In</h2>
         <form onSubmit={handleLogin}>

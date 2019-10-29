@@ -18,30 +18,31 @@ class Show extends Component {
   componentDidMount() {
     const ref = firebase
       .firestore()
-      .collection("article")
+      .collection("test")
       .doc(this.props.match.params.id);
-    ref.get().then(doc => {
-      const data = doc.data();
-      if (doc.exists) {
-        this.setState({
-          Article: data,
-          key: doc.id,
-          isLoading: false
-        });
-      } else {
-        console.log("No such document!");
-      }
-     
-    }).catch(error => {
-      console.log(error);
-    })
-
+    ref
+      .get()
+      .then(doc => {
+        const data = doc.data();
+        if (doc.exists) {
+          this.setState({
+            Article: data,
+            key: doc.id,
+            isLoading: false
+          });
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   delete(id) {
     firebase
       .firestore()
-      .collection("article")
+      .collection("test")
       .doc(id)
       .delete()
       .then(() => {
@@ -71,15 +72,16 @@ class Show extends Component {
                 }}
               >
                 <dt>Description:</dt>
-                <dd>
-                 <div className="articl-cont">
-                   <div className="ck-content">{parse(`${content}`)}</div>
+                <div>
+                  <div className="articl-cont">
+                    <div className="ck-content">{parse(`${content}`)}</div>
+                  </div>
                 </div>
-                </dd>
-                <dt>category:</dt>
-                <dd>{this.state.Article.category}</dd>
               </dl>
-              <RouterLink to={`/edit/${this.state.key}`} className="btn btn-success">
+              <RouterLink
+                to={`/edit/${this.state.key}`}
+                className="btn btn-success"
+              >
                 Edit
               </RouterLink>
               &nbsp;
@@ -98,11 +100,10 @@ class Show extends Component {
           </div>
           <Version />
         </div>
-         <style jsx>{`
-         .ck-editor__editable_inline {
-          min-height: 400px;
-        }
-
+        <style jsx>{`
+          .ck-editor__editable_inline {
+            min-height: 400px;
+          }
 
           .back-submit {
             display: flex;
@@ -115,23 +116,21 @@ class Show extends Component {
             margin-left: 10px;
           }
           .articl-cont {
-              display: block;
-              margin: auto;
-              background-color: white;
-              padding: 30px 50px 50px;
-              border-radius: 2px;
-              min-height: 60vh;
-              max-width: 80vw;
-              
-            }
-
+            display: block;
+            margin: auto;
+            background-color: white;
+            padding: 30px 50px 50px;
+            border-radius: 2px;
+            min-height: 60vh;
+            max-width: 80vw;
+          }
 
           .table {
             width: 0;
           }
 
           code {
-            padding: .25em;
+            padding: 0.25em;
             font-size: 75%;
             color: #282828;
           }

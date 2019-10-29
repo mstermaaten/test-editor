@@ -6,17 +6,15 @@ import Header from "./header";
 import Version from "./version";
 import DataTable from "react-data-table-component";
 
-
 import "../katex.css";
-
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.ref = firebase.firestore().collection("article");
+    this.ref = firebase.firestore().collection("test");
     this.unsubscribe = null;
     this.state = {
-      article: [],
+      article: []
     };
   }
 
@@ -41,32 +39,16 @@ class Home extends Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref
-      .orderBy("date", "asc")
+      .orderBy("title", "asc")
       .onSnapshot(this.onCollectionUpdate);
   }
 
   render() {
-
     const columns = [
       {
         name: "Title",
         sortable: true,
         selector: "title"
-      },
-      {
-        name: "Category",
-        sortable: true,
-        selector: "category"
-      },
-      {
-        name: "Writer",
-        sortable: true,
-        selector: "writer"
-      },
-      {
-        name: "Date",
-        sortable: true,
-        selector: "date"
       },
       {
         name: "Show",
@@ -86,8 +68,6 @@ class Home extends Component {
         )
       }
     ];
-
-   
 
     return (
       <div style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}>
@@ -118,7 +98,6 @@ class Home extends Component {
                   data={this.state.article.reverse()}
                   striped={true}
                   pagination
-                
                 />
               </div>
             </div>
